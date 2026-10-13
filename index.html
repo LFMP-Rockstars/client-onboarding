@@ -544,7 +544,7 @@ const CONNECTED = !!RELAY_URL;
 const PASS_KEY = "lfmp_onboarding_passcode";
 function getPass(){ try{ return localStorage.getItem(PASS_KEY)||""; }catch(e){ return ""; } }
 function setPass(v){ try{ localStorage.setItem(PASS_KEY,v); }catch(e){} }
-let needPass=false, busy=false, searchResults=null, searchQ="";
+let needPass=false, busy=false, searchResults=null, searchQ="", linkFrom=null;
 async function api(path, body){
   const res = await fetch(RELAY_URL.replace(/\/+$/,"")+path, {
     method: body?"POST":"GET",
@@ -558,36 +558,10 @@ async function api(path, body){
 const STORE_KEY="lfmp_onboarding_v1";
 let DB={clients:{},current:null};
 let state={view:"clients",step:0,page:0,v:{}};
-function sampleAnswers(){ return {
-    first_name:"Anna", last_name:"Riedel", email:"anna@riedellaw.com", company:"Riedel Law Group (sample)",
-    address1:"401 Congress Ave", city:"Austin", state:"TX", country:"United States", postal_code:"78701",
-    main__office_phone_number:"(512) 555-0142", intake_phone_number:"(512) 555-0199",
-    public_email_used_for_your_business_such_as_info:"info@riedellaw.com", do_you_have_a_calendar_link_for_your_intake_team:"No",
-    website_onb:"https://riedellaw.com", payment_types_accepted:"Contingency, credit card",
-    key_contacts_partner_responsibilities:"Anna Riedel, Managing Partner, oversees all marketing; Jen Cole, Office Manager, handles approvals.",
-    preferred_style_of_communication:["Email (Always check off)"], blog_content_approval__email:"anna@riedellaw.com",
-    who_should_be_included_in_communications:"Jen Cole, (512) 555-0150, jen@riedellaw.com",
-    additional_notes_or_suggestions_for_communication_not_addressed_above:"None",
-    operating_hours:"Mon–Fri 8am–6pm", answering_service_247:["No"],
-    bar_number_some_verticals_require_this_info:"TX 24012345",
-    birth_date_some_verticals_ask_for_this_due_to_online_security_this_date_of_birth_does_not_have_to_be_exact:"1980",
-    do_you_have_a_process_from_intake_to_completion_that_you_can_define_for_us:"Call → intake form → consult → retainer",
-    does_your_intake_team_have_the_ability_to_handle_spanish_speaking_leads:"Yes, one bilingual intake specialist",
-    image_folder_link:"https://drive.google.com/…", branding_guidelinespec_sheets:"https://drive.google.com/…",
-    what_are_your_high_value_service_products_procedures:"Truck accidents, wrongful death",
-    which_types_of_cases_do_you_prefer_to_handle_this_may_include_both_high_value_cases_and_lower_value_matters_that_your_team_is_particularly_skilled_in_managing_or_can_handle_efficiently:"Truck and car accidents",
-    keywords_or_service_products_procedures_youd_like_to_avoid:"Workers' comp",
-    case_types_youd_like_to_add_to_your_primary_practice_areas:"Premises liability",
-    target_cities_or_surrounding_cities_you_market_in:"Austin, Round Rock, San Marcos",
-    gate__multiple_locations:"No",
-    access__google_business_profile__status:"Granted", access__google_analytics__status:"Granted",
-    access__domain_registrar__status:"Pending", access__domain_registrar__notes:"Their IT contact Mark handles GoDaddy — mark@riedellaw.com",
-    gate__has_website_cms:"Yes", access__website_cms__status:"Granted", gate__uses_cloudflare:"No",
-}; }
 function newId(){ return "c"+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
 function loadDB(){
   try{ const raw=localStorage.getItem(STORE_KEY); if(raw){ const d=JSON.parse(raw); if(d&&d.clients) DB=d; } }catch(e){}
-  if(!Object.keys(DB.clients).length){ const id=newId(); DB.clients[id]={id,v:sampleAnswers(),updated:Date.now(),sample:true}; }
+  Object.keys(DB.clients).forEach(id=>{ if(DB.clients[id].sample) delete DB.clients[id]; });   // remove the old demo client (Riedel) if a browser still has it
 }
 let saveT=null, storageOK=true;
 function saveDB(){ clearTimeout(saveT); saveT=setTimeout(()=>{ try{ localStorage.setItem(STORE_KEY,JSON.stringify(DB)); storageOK=true; }catch(e){ storageOK=false; } },250); }
@@ -614,6 +588,21 @@ async function openGHLContact(contactId){
     DB.clients[id]={ id, contactId, v, dirty: local?.dirty||[], updated: Date.now(), lastSync: Date.now(), submittedAt: ((r.contact.tags||[]).includes(SUBMIT_TAG) ? (local?.submittedAt||Date.now()) : local?.submittedAt), contactLabel: r.contact.name||r.contact.email||"" };
     searchResults=null; saveDB(); busy=false; openClient(id);
   } catch(e){ busy=false; render(true); toast("Couldn't load the contact: "+e.message); }
+}
+async function linkClient(localId, contactId){
+  const local=DB.clients[localId]; if(!local) return;
+  busy=true; render(true);
+  try{
+    const r = await api(`/contact/${contactId}`);
+    const id="ghl_"+contactId; const existing=DB.clients[id];
+    const v={...r.values}; const dirty=[...(existing?.dirty||[])];
+    Object.entries(local.v).forEach(([k,val])=>{ const has=Array.isArray(val)?val.length:String(val??"").trim()!==""; if(!has) return;
+      if(STD.has(k) && String(v[k]??"").trim()!=="") return;   // keep GHL's existing name/email/address
+      v[k]=val; if(!dirty.includes(k)) dirty.push(k); });
+    DB.clients[id]={ id, contactId, v, dirty, updated: Date.now(), lastSync: existing?.lastSync, submittedAt: ((r.contact.tags||[]).includes(SUBMIT_TAG) ? (existing?.submittedAt||Date.now()) : existing?.submittedAt), contactLabel: r.contact.name||r.contact.email||"" };
+    delete DB.clients[localId]; linkFrom=null; searchResults=null; saveDB(); busy=false;
+    openClient(id); toast(`Linked to the GHL contact. ${dirty.length} answer${dirty.length===1?"":"s"} will be saved on the next Finish step or Save to GHL.`);
+  } catch(e){ busy=false; render(true); toast("Couldn't link: "+e.message); }
 }
 function openClient(id){ DB.current=id; state={view:"hub",step:0,page:0,v:DB.clients[id].v}; saveDB(); render(); }
 function cName(c){ return (c.v.company||"").trim() || "Untitled client"; }
@@ -751,7 +740,7 @@ function topnavHTML(){
 function syncBar(){
   if(!CONNECTED) return "";
   const c=DB.clients[DB.current]; if(!c) return "";
-  if(!c.contactId) return `<div class="syncbar warn">This client exists in this browser only. It isn't linked to a GHL contact, so it can't be saved to GHL. Open it from the contact search instead.</div>`;
+  if(!c.contactId) return `<div class="syncbar warn">This client exists in this browser only and isn't linked to a GHL contact yet.${c.sample?"":` <button class="navbtn" data-act="linkstart">Link to GHL contact</button>`}</div>`;
   const n=dirtyCount(c);
   return `<div class="syncbar ${n?"warn":"ok"}">${busy?"Saving to GHL…":n?`${n} unsaved change${n>1?"s":""}`:`All changes saved to GHL${c.lastSync?" · "+new Date(c.lastSync).toLocaleTimeString():""}`}
     ${n&&!busy?`<button class="navbtn" data-act="savenow">Save to GHL now</button>`:""}${c.submittedAt?` <span class="sim">Submitted ${new Date(c.submittedAt).toLocaleString()}</span>`:""}</div>`;
@@ -793,6 +782,7 @@ function renderClients(){
         <button data-expfmt="pdf" data-cid="${c.id}"><b>PDF</b><small>Submission, for sharing or printing</small></button>
         <button data-expfmt="csv" data-cid="${c.id}"><b>CSV</b><small>Opens in Excel / Google Sheets</small></button>
         <button data-expfmt="json" data-cid="${c.id}"><b>JSON</b><small>For a later GHL import</small></button></div>`:""}</span>`:""}
+      ${CONNECTED && !c.contactId && !c.sample ? `<button class="navbtn" data-link="${c.id}">Link to GHL</button>` : ""}
       <button class="navbtn" data-del="${c.id}">${pendingDelete===c.id?"Click again to delete":"Delete"}</button>
       ${c.submittedAt?`<button class="navbtn dl" data-dl="${c.id}" title="Submitted ${new Date(c.submittedAt).toLocaleString()}">⬇ Download submission</button>`:`<span class="pill incomplete" title="Not submitted yet">Incomplete</span>`}
       <button class="arrow" data-client="${c.id}" aria-label="Open">→</button></div></div>`; }).join("");
@@ -804,6 +794,7 @@ function renderClients(){
     ${CONNECTED && needPass ? `<div class="box" style="margin-bottom:18px;border-color:#e0c25c;background:#fffbea"><div class="field" style="margin:0"><label>Team passcode</label>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="password" id="passIn" placeholder="Enter the team passcode" style="flex:1;min-width:200px">
       <button class="btn-primary" data-act="setpass">Continue →</button></div><div class="help">Saved in this browser so you only enter it once.</div></div></div>` : ""}
+    ${CONNECTED && linkFrom && DB.clients[linkFrom] ? `<div class="status-note p" style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span>Linking <b>${esc(cName(DB.clients[linkFrom]))}</b>: search for the matching GHL contact and pick it. The answers already entered are kept and saved to that contact on the next Finish step.</span><button class="navbtn" data-act="linkcancel">Cancel</button></div>` : ""}
     ${CONNECTED ? `<div class="box" style="margin-bottom:18px"><div class="field" style="margin:0"><label>Find the client's GHL contact</label>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="text" id="searchIn" value="${esc(searchQ)}" placeholder="Name, company, email or phone" style="flex:1;min-width:200px">
       <button class="btn-primary" data-act="search" ${busy?"disabled":""}>${busy?"Searching…":"Search"}</button></div>
@@ -813,7 +804,7 @@ function renderClients(){
       <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="text" id="newName" placeholder="Firm name (saved as Company)" style="flex:1;min-width:200px">
       <button class="btn-primary" data-act="newclient">Start →</button></div></div></div>`}
     ${CONNECTED && Object.keys(DB.clients).length ? `<h3 class="subhead" style="font-size:16px">Opened on this computer</h3>` : ""}
-    ${rows||'<p class="sub">No clients yet.</p>'}
+    ${rows||(CONNECTED?'':'<p class="sub">No clients yet.</p>')}
     <p class="sim" style="text-align:center;margin-top:18px">${CONNECTED?"Answers are saved to GHL when you finish a step or submit. This list only shows clients opened on this computer.":"Clients and answers are saved in this browser only. Another computer won't see them until the GHL connection is built."}</p>
   </div>`;
 }
@@ -915,7 +906,7 @@ document.addEventListener("click",e=>{
   if(admin){ const el=e.target.closest("[data-edit]"); if(el && !e.target.closest("#editor")){ e.preventDefault(); e.stopPropagation(); openEditor(el.dataset.edit, el.dataset.hint); return; } }
 },true);
 document.addEventListener("click",e=>{
-  const t=e.target.closest("[data-open],[data-page],[data-act],[data-opt],[data-client],[data-del],[data-exp],[data-expfmt],[data-ghl],[data-dl]");
+  const t=e.target.closest("[data-open],[data-page],[data-act],[data-opt],[data-client],[data-del],[data-exp],[data-expfmt],[data-ghl],[data-dl],[data-link]");
   if(expOpen && !(t && (t.dataset.exp||t.dataset.expfmt))){ expOpen=null; if(state.view==="clients") render(true); if(!t) return; }
   if(!t) return;
   if(t.dataset.exp){ e.stopPropagation(); expOpen = expOpen===t.dataset.exp ? null : t.dataset.exp; render(true); return; }
@@ -925,8 +916,9 @@ document.addEventListener("click",e=>{
     else { exportClient(c); toast("JSON downloaded"); }
     return; }
   if(t.dataset.del){ e.stopPropagation(); if(pendingDelete===t.dataset.del){ delete DB.clients[t.dataset.del]; pendingDelete=null; saveDB(); toast("Client deleted from this browser"); } else { pendingDelete=t.dataset.del; setTimeout(()=>{ if(pendingDelete===t.dataset.del){ pendingDelete=null; if(state.view==="clients") render(true);} },4000); } render(true); return; }
+  if(t.dataset.link){ e.stopPropagation(); linkFrom=t.dataset.link; searchResults=null; state.view="clients"; render(); setTimeout(()=>{ const i=document.getElementById("searchIn"); if(i){ i.value=cName(DB.clients[linkFrom]); i.focus(); } },0); return; }
   if(t.dataset.dl){ e.stopPropagation(); exportPDF(DB.clients[t.dataset.dl]); toast("Opening the print window. Choose \"Save as PDF\"."); return; }
-  if(t.dataset.ghl){ openGHLContact(t.dataset.ghl); return; }
+  if(t.dataset.ghl){ if(linkFrom) linkClient(linkFrom, t.dataset.ghl); else openGHLContact(t.dataset.ghl); return; }
   if(t.dataset.client){ const c=DB.clients[t.dataset.client]; if(CONNECTED && c.contactId){ openGHLContact(c.contactId); } else openClient(t.dataset.client); return; }
   if(t.dataset.open!==undefined){
     state.view="step"; state.step=+t.dataset.open; const st=STEPS[state.step];
@@ -947,6 +939,8 @@ document.addEventListener("click",e=>{
   switch(t.dataset.act){
     case "hub": state.view="hub"; render(); break;
     case "clients": state.view="clients"; render(); break;
+    case "linkstart": { linkFrom=DB.current; searchResults=null; state.view="clients"; render(); setTimeout(()=>{ const i=document.getElementById("searchIn"); if(i){ i.value=cName(DB.clients[linkFrom]); i.focus(); } },0); break; }
+    case "linkcancel": linkFrom=null; render(true); break;
     case "newclient": { const nm=($("#newName").value||"").trim(); if(!nm){ toast("Enter the firm name first"); break; } const id=newId(); DB.clients[id]={id,v:{company:nm},updated:Date.now()}; openClient(id); toast("New client started"); break; }
     case "back": go(Math.max(0,state.page-1)); break;
     case "next": next(); break;
