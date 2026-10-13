@@ -155,9 +155,50 @@ body.admin .admin-bar{display:flex}
 .results{margin-top:12px;display:grid;gap:6px}
 .result{display:flex;flex-direction:column;align-items:flex-start;text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px}
 .result:hover{border-color:var(--blue);background:var(--blue-bg)} .result span{font-size:13px;color:var(--muted)}
+.navbtn.dl{border-color:var(--green-line);color:var(--green);background:var(--green-bg)}
+.pill.incomplete{background:var(--amber-bg);color:var(--amber);font-size:12px;padding:5px 12px}
+#adminModal input{width:100%;border:1px solid #cfd6e4;border-radius:8px;padding:11px 12px;font:inherit}
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:8px;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:30;max-width:90%}
 .toast.show{opacity:1}
+.rowactions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 @media (max-width:640px){
+  .demo-bar{padding:8px 12px;gap:8px}
+  #bannerText{font-size:12px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;width:100%}
+  .demo-bar .linkbtn{padding:5px 9px}
+  .admin-bar{padding:8px 12px;gap:6px}
+  .adm-hint{display:none}
+  .adm-group{border:none;padding:0}
+  .topnav{padding:10px 16px} .logo{height:44px}
+  .wrap{padding:24px 16px 120px}
+  .eyebrow{letter-spacing:2px;font-size:11px}
+  .sub{font-size:15px;margin-bottom:20px}
+  .stepcard:not(.clientrow){gap:10px 12px;padding:16px}
+  .stepcard:not(.clientrow) .grow{flex:1 1 calc(100% - 50px);min-width:0}
+  .stepcard:not(.clientrow) > .pill, .stepcard:not(.clientrow) > .btn-outline{margin-left:46px}
+  .stepcard:not(.clientrow) > .arrow{margin-left:auto}
+  .stepcard .t{font-size:16px}
+  .clientrow{gap:10px 12px}
+  .clientrow .grow{flex:1 1 calc(100% - 50px);min-width:0}
+  .clientrow .rowactions{flex:1 1 100%;justify-content:flex-start;padding-left:46px}
+  .clientrow .rowactions .arrow{margin-left:auto}
+  .expmenu{right:auto;left:0}
+  .stephead{padding:12px 16px 10px}
+  .crumb{margin:10px 0 8px;font-size:14px}
+  .panel{padding:24px 16px 130px}
+  .panel h2{font-size:24px}
+  .box{padding:16px}
+  .sumrow{flex-wrap:wrap}
+  .sumrow > div:last-child{margin-left:auto}
+  .footer{padding:10px 12px;gap:8px}
+  .btn-back{padding:11px 14px;font-size:14px;flex:none}
+  .footer .btn-primary{flex:1;padding:12px 10px;font-size:15px}
+  .btn-skip{font-size:14px;padding:10px 4px;flex:none;white-space:nowrap}
+  input[type=text],input[type=email],input[type=tel],input[type=url],input[type=password],select,textarea{font-size:16px}
+  .opt{padding:10px 12px}
+  .syncbar{font-size:12px;padding:5px 10px}
+  .modal{padding:20px}
+  .toast{bottom:84px}
+
   .tracker{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch} .trk{white-space:nowrap;flex:none} .trk-sep{flex:none}
   h1{font-size:30px} .panel h2{font-size:26px}
   .stepcard{flex-wrap:wrap} .topnav{flex-wrap:wrap;gap:8px} .topnav .right{font-size:13px;gap:8px}
@@ -171,15 +212,16 @@ body.admin .admin-bar{display:flex}
 <div class="demo-bar">
   <div id="bannerText"><b>INTERNAL PREVIEW</b> · For the LFMP team. Answers are saved in this browser only. Not connected to GHL yet.</div>
   <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
-    <label><input type="checkbox" id="adminToggle"> Admin mode</label>
-    <label><input type="checkbox" id="mapToggle"> Show GHL field mapping</label>
+    <button class="linkbtn" id="adminBtn">🔒 Admin</button>
     <button class="linkbtn" id="howBtn">How this works</button>
     <button class="linkbtn" id="clientsBtn">All clients</button>
   </div>
 </div>
 
 <div class="admin-bar">
-  <b>ADMIN MODE</b> · Click any outlined text to edit it. Demo: edits last until this tab is closed. In a live build they would apply to every client's hub.
+  <b>ADMIN MODE</b><span class="adm-hint"> · Click any outlined text to edit it (edits stay in this browser).</span>
+  <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="mapToggle"> Show GHL field mapping</label>
+  <button id="adminExit">Exit admin</button>
   <span style="flex:1"></span>
   <button id="logoBtn">Change logo</button><input type="file" id="logoFile" accept="image/*" hidden>
   <span class="adm-group"><b>Export:</b>
@@ -197,6 +239,13 @@ body.admin .admin-bar{display:flex}
   <div class="row"><button id="edDefault">Restore default</button><button id="edCancel">Cancel</button><button class="save" id="edSave">Save</button></div>
 </div>
 <div class="toast" id="toast"></div>
+<div class="modal-bg" id="adminModal"><div class="modal" style="max-width:380px">
+  <h3>Admin access</h3>
+  <p style="color:var(--muted);font-size:14px;margin:4px 0 14px">Enter the admin password to unlock exports, text editing and the field mapping view.</p>
+  <input type="password" id="adminPw" placeholder="Admin password" autocomplete="current-password">
+  <div id="adminErr" style="color:#c53030;font-size:13px;margin-top:6px;min-height:18px"></div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px"><button class="navbtn" id="adminCancel">Cancel</button><button class="btn-primary" id="adminGo">Unlock</button></div>
+</div></div>
 
 <div class="modal-bg" id="howModal">
   <div class="modal">
@@ -234,7 +283,6 @@ const PAGES = [
 // ---------------- STEP 1: Sections 1–10 ----------------
 { id:"p1", step:0, sec:1, title:"Client Information", items:[
   N(0,"Digital Marketing Questionnaire",{style:"eyebrow"}),
-  F(1,"text","email_","Enter your email (LFMP employee completing this form)",{ph:"Email *"}),
   N(4,"Please answer everything you know. If a question doesn't apply to your firm, choose \"No\" or \"Not Applicable\" and it will be skipped. If you need someone else to provide an answer or grant access, mark it \"Pending\" and add their name in the notes. Our team will follow up with them directly."),
   F(5,"text","first_name","First Name",{req:1,ph:"Enter your first name"}),
   F(6,"text","last_name","Last Name",{req:1,ph:"Enter your last name"}),
@@ -563,7 +611,7 @@ async function openGHLContact(contactId){
     const id="ghl_"+contactId; const local=DB.clients[id];
     const v={...r.values};
     if(local && local.dirty && local.dirty.length) local.dirty.forEach(k=>{ v[k]=local.v[k]; });   // keep unsaved local edits
-    DB.clients[id]={ id, contactId, v, dirty: local?.dirty||[], updated: Date.now(), lastSync: Date.now(), submittedAt: local?.submittedAt, contactLabel: r.contact.name||r.contact.email||"" };
+    DB.clients[id]={ id, contactId, v, dirty: local?.dirty||[], updated: Date.now(), lastSync: Date.now(), submittedAt: ((r.contact.tags||[]).includes(SUBMIT_TAG) ? (local?.submittedAt||Date.now()) : local?.submittedAt), contactLabel: r.contact.name||r.contact.email||"" };
     searchResults=null; saveDB(); busy=false; openClient(id);
   } catch(e){ busy=false; render(true); toast("Couldn't load the contact: "+e.message); }
 }
@@ -737,16 +785,17 @@ let pendingDelete=null, expOpen=null, submitArm=false;
 function renderClients(){
   const list=Object.values(DB.clients).sort((a,b)=>b.updated-a.updated);
   const rows=list.map(c=>{ state.v=c.v; const done=STEPS.filter(s=>stepState(s)==="done").length; const miss=STEPS.reduce((n,s)=>n+missing(s),0);
-    return `<div class="stepcard" data-client="${c.id}">
+    return `<div class="stepcard clientrow" data-client="${c.id}">
       <div class="check" style="${done===4?"background:var(--green);border-color:var(--green)":""}">${done===4?"✓":""}</div>
       <div class="grow"><div class="t">${esc(cName(c))}${c.sample?' <span class="pill not" style="font-size:11px;padding:2px 8px">sample</span>':""}${CONNECTED&&!c.contactId&&!c.sample?' <span class="pill not" style="font-size:11px;padding:2px 8px">browser only</span>':""}${c.submittedAt?' <span class="pill" style="font-size:11px;padding:2px 8px;background:var(--green-bg);color:var(--green)">submitted</span>':""}${dirtyCount(c)&&c.contactId?` <span class="pill" style="font-size:11px;padding:2px 8px;background:var(--amber-bg);color:var(--amber)">${dirtyCount(c)} unsaved</span>`:""}</div>
         <div class="m">${done} of 4 steps complete · ${miss} open item${miss===1?"":"s"} · updated ${new Date(c.updated).toLocaleDateString()}</div></div>
-      ${admin?`<span class="expwrap"><button class="navbtn exp" data-exp="${c.id}">Export ▾</button>${expOpen===c.id?`<div class="expmenu">
+      <div class="rowactions">${admin?`<span class="expwrap"><button class="navbtn exp" data-exp="${c.id}">Export ▾</button>${expOpen===c.id?`<div class="expmenu">
         <button data-expfmt="pdf" data-cid="${c.id}"><b>PDF</b><small>Submission, for sharing or printing</small></button>
         <button data-expfmt="csv" data-cid="${c.id}"><b>CSV</b><small>Opens in Excel / Google Sheets</small></button>
         <button data-expfmt="json" data-cid="${c.id}"><b>JSON</b><small>For a later GHL import</small></button></div>`:""}</span>`:""}
       <button class="navbtn" data-del="${c.id}">${pendingDelete===c.id?"Click again to delete":"Delete"}</button>
-      <button class="arrow" data-client="${c.id}" aria-label="Open">→</button></div>`; }).join("");
+      ${c.submittedAt?`<button class="navbtn dl" data-dl="${c.id}" title="Submitted ${new Date(c.submittedAt).toLocaleString()}">⬇ Download submission</button>`:`<span class="pill incomplete" title="Not submitted yet">Incomplete</span>`}
+      <button class="arrow" data-client="${c.id}" aria-label="Open">→</button></div></div>`; }).join("");
   return `${topnavHTML()}
   <div class="wrap">
     <div class="eyebrow">${E("clients.eyebrow","LFMP TEAM")}</div>
@@ -866,7 +915,7 @@ document.addEventListener("click",e=>{
   if(admin){ const el=e.target.closest("[data-edit]"); if(el && !e.target.closest("#editor")){ e.preventDefault(); e.stopPropagation(); openEditor(el.dataset.edit, el.dataset.hint); return; } }
 },true);
 document.addEventListener("click",e=>{
-  const t=e.target.closest("[data-open],[data-page],[data-act],[data-opt],[data-client],[data-del],[data-exp],[data-expfmt],[data-ghl]");
+  const t=e.target.closest("[data-open],[data-page],[data-act],[data-opt],[data-client],[data-del],[data-exp],[data-expfmt],[data-ghl],[data-dl]");
   if(expOpen && !(t && (t.dataset.exp||t.dataset.expfmt))){ expOpen=null; if(state.view==="clients") render(true); if(!t) return; }
   if(!t) return;
   if(t.dataset.exp){ e.stopPropagation(); expOpen = expOpen===t.dataset.exp ? null : t.dataset.exp; render(true); return; }
@@ -876,6 +925,7 @@ document.addEventListener("click",e=>{
     else { exportClient(c); toast("JSON downloaded"); }
     return; }
   if(t.dataset.del){ e.stopPropagation(); if(pendingDelete===t.dataset.del){ delete DB.clients[t.dataset.del]; pendingDelete=null; saveDB(); toast("Client deleted from this browser"); } else { pendingDelete=t.dataset.del; setTimeout(()=>{ if(pendingDelete===t.dataset.del){ pendingDelete=null; if(state.view==="clients") render(true);} },4000); } render(true); return; }
+  if(t.dataset.dl){ e.stopPropagation(); exportPDF(DB.clients[t.dataset.dl]); toast("Opening the print window. Choose \"Save as PDF\"."); return; }
   if(t.dataset.ghl){ openGHLContact(t.dataset.ghl); return; }
   if(t.dataset.client){ const c=DB.clients[t.dataset.client]; if(CONNECTED && c.contactId){ openGHLContact(c.contactId); } else openClient(t.dataset.client); return; }
   if(t.dataset.open!==undefined){
@@ -938,7 +988,27 @@ function openEditor(key,hint){
   $("#edHint").textContent = hint || ("Original: " + (DEF[key]??""));
   $("#editor").classList.add("open"); $("#edVal").focus();
 }
-$("#adminToggle").addEventListener("change",e=>{ admin=e.target.checked; document.body.classList.toggle("admin",admin); if(!admin) $("#editor").classList.remove("open"); render(true); });
+function setAdmin(on){ admin=on; document.body.classList.toggle("admin",on); try{ on?sessionStorage.setItem("lfmp_admin","1"):sessionStorage.removeItem("lfmp_admin"); }catch(e){}
+  if(!on){ $("#editor").classList.remove("open"); $("#mapToggle").checked=false; document.body.classList.remove("showmap"); }
+  $("#adminBtn").textContent = on ? "🔓 Admin" : "🔒 Admin"; render(true); }
+$("#adminBtn").onclick=()=>{ if(admin){ setAdmin(false); toast("Admin mode off"); return; } $("#adminErr").textContent=""; $("#adminPw").value=""; $("#adminModal").classList.add("open"); setTimeout(()=>$("#adminPw").focus(),50); };
+$("#adminCancel").onclick=()=>$("#adminModal").classList.remove("open");
+$("#adminExit").onclick=()=>{ setAdmin(false); toast("Admin mode off"); };
+async function tryAdmin(){
+  const pw=$("#adminPw").value; if(!pw){ $("#adminErr").textContent="Enter the password."; return; }
+  if(!CONNECTED){ $("#adminErr").textContent="Admin login needs the GHL relay to be connected."; return; }
+  $("#adminGo").disabled=true; $("#adminErr").textContent="Checking…";
+  try{
+    const res=await fetch(RELAY_URL.replace(/\/+$/,"")+"/admin/verify",{method:"POST",headers:{"Content-Type":"application/json",...(getPass()?{"X-Hub-Passcode":getPass()}:{})},body:JSON.stringify({password:pw})});
+    const d=await res.json().catch(()=>({}));
+    if(res.ok && d.ok){ $("#adminModal").classList.remove("open"); setAdmin(true); toast("Admin mode on"); }
+    else $("#adminErr").textContent = d.message || "Incorrect password.";
+  }catch(e){ $("#adminErr").textContent="Couldn't reach the relay."; }
+  finally{ $("#adminGo").disabled=false; }
+}
+$("#adminGo").onclick=tryAdmin;
+$("#adminPw").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); tryAdmin(); } });
+try{ if(sessionStorage.getItem("lfmp_admin")==="1"){ admin=true; document.body.classList.add("admin"); setTimeout(()=>{$("#adminBtn").textContent="🔓 Admin";},0); } }catch(e){}
 $("#edSave").onclick=()=>{ const v=$("#edVal").value; if(edKey==="client.name"){ TXT[edKey]=v; } else if(v===DEF[edKey]) delete TXT[edKey]; else TXT[edKey]=v; $("#editor").classList.remove("open"); updateCount(); render(true); toast("Text updated (this tab only)"); };
 $("#edCancel").onclick=()=>$("#editor").classList.remove("open");
 $("#edDefault").onclick=()=>{ delete TXT[edKey]; $("#editor").classList.remove("open"); updateCount(); render(true); toast("Restored original text"); };
