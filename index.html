@@ -205,23 +205,146 @@ body.admin .admin-bar{display:flex}
   .footer{padding:10px 12px;gap:6px} .footer .mid{display:none}
   .btn-primary{padding:11px 16px;font-size:15px}
 }
+
+/* ---- sign-in, tabs, submissions ---- */
+.navtab{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:6px;padding:4px 12px;font-size:13px;cursor:pointer}
+.navtab.on{background:#fff;color:var(--navy);font-weight:700}
+.whoami{font-size:12.5px;color:rgba(255,255,255,.85)} .whoami .em{opacity:.7;margin-left:4px}
+#adminBtn.on{text-decoration:underline;font-weight:700}
+a.linkbtn{text-decoration:none}
+.authlost{position:sticky;top:0;z-index:50;background:#fff6e5;color:#7a4b00;border-bottom:1px solid #e0c25c;padding:10px 16px;text-align:center;font-size:14px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.toolbar input[type=text]{flex:1;min-width:220px} .toolbar select{width:auto;min-width:150px}
+.tablebox{padding:0;overflow:hidden} .tablebox.dim{opacity:.6}
+.subtable{width:100%;border-collapse:collapse;font-size:14px}
+.subtable th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);background:var(--gray-bg);padding:10px 14px}
+.subtable td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:middle}
+.subtable tr[data-subopen]{cursor:pointer} .subtable tbody tr:hover{background:#fafbfe}
+.subtable .acts{white-space:nowrap;text-align:right} .subtable .acts .navbtn{margin-left:6px}
+.sim2{font-size:12.5px;color:var(--muted)}
+.pager{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px}
+.navbtn:disabled{opacity:.45;cursor:default}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px 18px;margin-top:14px;font-size:14px}
+.meta>div>span:first-child{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.qa{width:100%;border-collapse:collapse;font-size:14px} .qa td{padding:8px 4px;border-top:1px solid var(--line);vertical-align:top;word-break:break-word} .qa td.q{width:45%;color:#3F4756;font-weight:600;padding-right:14px}
+.qa .empty{color:#9aa3b5;font-style:italic} .steph{color:var(--navy);font-size:18px;margin:22px 0 10px}
+.spinner{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--blue);border-radius:50%;margin:0 auto 10px;animation:sp .8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+@media (max-width:640px){
+  .subtable thead{display:none} .subtable,.subtable tbody,.subtable tr,.subtable td{display:block;width:100%}
+  .subtable tr{border-top:1px solid var(--line);padding:12px 14px} .subtable td{border:none;padding:3px 0}
+  .subtable .acts{text-align:left;padding-top:8px} .subtable .acts .navbtn{margin:0 6px 0 0}
+  .qa td{display:block;width:100%;border:none;padding:2px 0} .qa tr{display:block;border-top:1px solid var(--line);padding:8px 0} .qa td.q{width:100%}
+  .toolbar select{flex:1} .whoami .em{display:none}
+}
+
+/* ---- compact step navigation ---- */
+.stephead{padding:12px 24px 10px}
+.sh-inner{max-width:960px;margin:0 auto}
+.sh-row1{display:flex;align-items:center;gap:12px;min-width:0}
+.back-hub.sm{padding:5px 12px;font-size:13px;flex:none}
+.sh-ctx{display:flex;align-items:baseline;gap:10px;min-width:0;flex:1;font-size:13px;color:var(--muted)}
+.sh-step{white-space:nowrap} .sh-step b{color:var(--ink);font-weight:600}
+.sh-client{color:var(--navy);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.sh-client::before{content:"·";color:#b5bccb;margin-right:10px;font-weight:400}
+.sh-sub{flex:none;font-size:11.5px;font-weight:600;color:var(--green);background:var(--green-bg);border-radius:999px;padding:1px 8px}
+.sh-sub.warn{color:var(--amber);background:var(--amber-bg)}
+.savestat{flex:none;display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.ssdot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+.savestat.warn .ssdot{background:var(--amber)} .savestat.warn{color:var(--amber)}
+.savestat.busy .ssdot{background:var(--gold);animation:ssp 1s ease-in-out infinite} @keyframes ssp{50%{opacity:.3}}
+.ss-btn{border:1px solid currentColor;background:#fff;color:inherit;border-radius:999px;padding:2px 10px;font-size:12px;cursor:pointer}
+.sh-row2{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
+.sh-label{display:flex;align-items:baseline;gap:8px;min-width:0;font-size:15px}
+.sh-count{color:var(--muted);white-space:nowrap;font-size:13px}
+.sh-sep{color:#b5bccb}
+.sh-name{color:var(--navy);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.secmenu{position:relative;flex:none}
+.secbtn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.secbtn:hover,.secbtn[aria-expanded="true"]{border-color:#b9c3d8;background:#f7f8fb}
+.secbtn .chev{font-size:10px;color:var(--muted)}
+.secpanel{position:absolute;right:0;top:calc(100% + 6px);z-index:40;width:340px;max-width:calc(100vw - 32px);max-height:min(70vh,520px);overflow:auto;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px rgba(27,42,94,.14);padding:6px}
+.secitem{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:none;border-radius:8px;padding:8px 10px;font-size:14px;color:var(--ink);cursor:pointer}
+.secitem:hover,.secitem:focus-visible{background:#f3f5fa;outline:none}
+.secitem.cur{background:var(--blue-bg);font-weight:600}
+.secitem .sname{flex:1;min-width:0}
+.secitem .sstat{font-size:12px;color:var(--muted);font-weight:400;white-space:nowrap}
+.secdiv{height:1px;background:var(--line);margin:4px 6px}
+.sdot{flex:none;width:18px;height:18px;border-radius:50%;border:1.5px solid #c9d0de;display:grid;place-items:center;font-size:10px;color:#fff;font-weight:700;line-height:1}
+.sdot.g{background:var(--navy);border-color:var(--navy)} .sdot.p{background:var(--amber);border-color:var(--amber)}
+.sdot.n{background:#9aa3b5;border-color:#9aa3b5} .sdot.i{background:#e3e7ef;border-color:#e3e7ef;color:var(--muted)} .sdot.u{color:var(--muted)}
+.sh-row3{display:flex;align-items:center;gap:12px;margin-top:8px}
+.segbar{flex:1;display:flex;gap:3px;min-width:0}
+.seg{flex:1;height:5px;border:none;border-radius:3px;background:#e3e7ef;padding:0;cursor:pointer;position:relative;transition:background .2s}
+.seg::after{content:"";position:absolute;inset:-7px 0}   /* bigger click target */
+.seg.g{background:var(--navy)} .seg.n{background:#9aa3b5} .seg.p{background:var(--amber)} .seg.i{background:#cfd6e4}
+.seg.sum{flex:.5}
+.seg.cur{background:var(--gold);box-shadow:0 0 0 2px rgba(201,162,39,.25)}
+.seg:hover{filter:brightness(.92)}
+.sh-done{font-size:12px;color:var(--muted);white-space:nowrap}
+.demo-bar .sm{display:none} .t-sm{display:none}
+@media (max-width:900px){ .savestat [data-act]{display:none} }
+@media (max-width:640px){
+  .stephead{padding:10px 16px 8px}
+  .sh-row1{gap:8px;flex-wrap:wrap}
+  .back-hub.sm{font-size:12px;padding:4px 10px}
+  .sh-ctx{flex:1 1 0;font-size:12px;gap:6px}
+  .sh-step{display:none}
+  .sh-client::before{display:none}
+  .savestat{font-size:11.5px}
+  .t-lg{display:none} .t-sm{display:inline}
+  .savestat [data-act]{display:inline-block}
+  .sh-row2{margin-top:8px}
+  .sh-label{font-size:14px;flex-direction:column;gap:0}
+  .sh-sep{display:none} .sh-count{font-size:11.5px}
+  .secbtn{padding:6px 9px;font-size:12.5px}
+  .secpanel{position:fixed;left:16px;right:16px;top:auto;width:auto;max-width:none}
+  .sh-done{font-size:11px}
+  .demo-bar{flex-wrap:wrap;row-gap:6px;column-gap:6px;padding:8px 12px}
+  .demo-bar>div:first-child{flex-basis:100%}
+  .demo-bar>div:last-child{display:contents}
+  .navtab{padding:4px 10px;font-size:12.5px}
+  .demo-bar .linkbtn{padding:4px 8px;font-size:12px}
+  .demo-bar .whoami{flex:1;min-width:0;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .demo-bar .whoami .pre{display:none}
+  .demo-bar .lg{display:none} .demo-bar .sm{display:inline}
+}
+
+/* ---- first-time guidance ---- */
+.howto{background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:14px 18px 16px;margin:0 0 18px}
+.howto-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;color:var(--navy);font-size:15px}
+.howto ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.howto li{display:flex;gap:10px;align-items:flex-start}
+.howto .hn{flex:none;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center;margin-top:1px}
+.howto b{display:block;color:var(--ink);font-size:14.5px}
+.howto small{display:block;color:var(--muted);font-size:13px;line-height:1.45;margin-top:2px}
+.linkish{background:none;border:none;color:var(--blue);font-size:13px;cursor:pointer;padding:2px 4px;text-decoration:underline}
+.emptystate{text-align:center;border:1.5px dashed #cfd6e4;border-radius:12px;padding:22px 16px;color:var(--muted);font-size:14px}
+.emptystate b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
+.emptystate a{color:var(--blue)}
+.pill.starthere{font-size:11px;padding:2px 8px;background:var(--gold);color:#fff;margin-left:6px;vertical-align:middle}
+.status-note.b{background:var(--blue-bg);color:var(--navy)}
+@media (max-width:760px){ .howto ol{grid-template-columns:1fr;gap:10px} }
 </style>
 </head>
 <body>
 
 <div class="demo-bar">
-  <div id="bannerText"><b>INTERNAL PREVIEW</b> · For the LFMP team. Answers are saved in this browser only. Not connected to GHL yet.</div>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <button class="navtab" data-tab="clients" id="clientsBtn">Clients</button>
+    <button class="navtab" data-tab="subs" id="subsBtn">Submissions</button>
+  </div>
   <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
-    <button class="linkbtn" id="adminBtn">🔒 Admin</button>
-    <button class="linkbtn" id="howBtn">How this works</button>
-    <button class="linkbtn" id="clientsBtn">All clients</button>
+    <span id="whoami" class="whoami"></span>
+    <button class="linkbtn" id="adminBtn" title="Text editing, field mapping and exports">🛠 Tools</button>
+    <button class="linkbtn" id="howBtn"><span class="lg">How this works</span><span class="sm">Help</span></button>
+    <a class="linkbtn" href="/cdn-cgi/access/logout" id="logoutBtn">Sign out</a>
   </div>
 </div>
 
 <div class="admin-bar">
-  <b>ADMIN MODE</b><span class="adm-hint"> · Click any outlined text to edit it (edits stay in this browser).</span>
+  <b>TOOLS</b><span class="adm-hint"> · Click any outlined text to edit it (edits stay in this browser).</span>
   <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="mapToggle"> Show GHL field mapping</label>
-  <button id="adminExit">Exit admin</button>
+  <button id="adminExit">Close tools</button>
   <span style="flex:1"></span>
   <button id="logoBtn">Change logo</button><input type="file" id="logoFile" accept="image/*" hidden>
   <span class="adm-group"><b>Export:</b>
@@ -239,31 +362,20 @@ body.admin .admin-bar{display:flex}
   <div class="row"><button id="edDefault">Restore default</button><button id="edCancel">Cancel</button><button class="save" id="edSave">Save</button></div>
 </div>
 <div class="toast" id="toast"></div>
-<div class="modal-bg" id="adminModal"><div class="modal" style="max-width:380px">
-  <h3>Admin access</h3>
-  <p style="color:var(--muted);font-size:14px;margin:4px 0 14px">Enter the admin password to unlock exports, text editing and the field mapping view.</p>
-  <input type="password" id="adminPw" placeholder="Admin password" autocomplete="current-password">
-  <div id="adminErr" style="color:#c53030;font-size:13px;margin-top:6px;min-height:18px"></div>
-  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px"><button class="navbtn" id="adminCancel">Cancel</button><button class="btn-primary" id="adminGo">Unlock</button></div>
-</div></div>
 
 <div class="modal-bg" id="howModal">
   <div class="modal">
     <h3>How this tool works</h3>
     <p>An internal tool for the LFMP team. You fill it in for the client, usually on a call. It asks every question on Onboarding Form v3, in the same order and with the same wording, split into 4 steps.</p>
-    <h4>Today (preview)</h4>
+    <h4>How it works</h4>
     <table>
-      <tr><th>What</th><th>How it works now</th></tr>
-      <tr><td>Saving</td><td>Answers are saved in <b>this browser</b> on this computer. Another computer won't see them.</td></tr>
-      <tr><td>GHL</td><td><b>Not connected.</b> Nothing is written to contacts, and no tags or reminders are created.</td></tr>
-      <tr><td>Export (admin mode)</td><td>Turn on Admin mode, then click <b>Export</b> beside a client on the client list: <b>PDF</b> (the full submission, formatted for sharing or printing; password entries are masked), <b>CSV</b> or <b>JSON</b>. The admin bar also has <b>All clients (CSV)</b>.</td></tr>
-      <tr><td>Password fields</td><td>Shown as they are on the original form. They're marked 🔒 in field-mapping view for a later review.</td></tr>
-      <tr><td>Completion</td><td>A page is complete only when every visible required question is answered and, if the page has an access status, it's Granted or Not Applicable. Pending stays open.</td></tr>
-    </table>
-    <h4>Next phase (proposed, not built)</h4>
-    <table>
-      <tr><td><span class="tag code">RELAY</span></td><td>A small Cloudflare Worker holds a contacts-only GHL token. It searches the client's contact, loads saved answers and saves each step <b>by field key</b>, so no manual mapping is needed. It also adds the tag <code>onb-stepN-done</code>.</td></tr>
-      <tr><td><span class="tag code">LOGIN</span></td><td>Optional later: Cloudflare Access, so only @lawfirmmarketingpros.com staff can open the tool.</td></tr>
+      <tr><th>What</th><th>How it works</th></tr>
+      <tr><td>Sign-in</td><td>Only Google accounts ending in <b>@lawfirmmarketingpros.com</b> can open this page. Your name is recorded on everything you save or submit.</td></tr>
+      <tr><td>Clients</td><td>Search the client's GHL contact and open it. Saved answers load from GHL. <b>Finish step</b> or <b>Save to GHL now</b> saves your changes to the contact.</td></tr>
+      <tr><td>Submit</td><td>Stores a permanent copy of every answer under <b>Submissions</b> (with the date and who submitted), then saves to GHL and adds the tag <code>onboarding-form-submitted</code>. If GHL fails, the copy is still kept and can be retried.</td></tr>
+      <tr><td>Submissions</td><td>Every submission from this hub: search, filter, open a record, download a PDF or JSON, or export the list as CSV. Resubmitting a client creates a new version; earlier versions are kept.</td></tr>
+      <tr><td>Tools</td><td>Text editing (this tab only), the GHL field-mapping view, and exports of answers held in this browser.</td></tr>
+      <tr><td>Password fields</td><td>Shown as on the original form. They're masked in PDFs.</td></tr>
     </table>
     <p style="margin-top:14px;color:var(--muted);font-size:13px">Source: Onboarding Form v3 (DRAFT) <code>45mrYxcr6deEfB96nMsH</code>, published version read 13 Oct 2026. In field-mapping view, #n is the element number on the original form and ⚠ marks issues in the source form.</p>
     <div style="text-align:right;margin-top:16px"><button class="btn-primary" id="closeHow">Got it</button></div>
@@ -536,25 +648,26 @@ STEPS.forEach((s,i)=>s.pages=PAGES.filter(p=>p.step===i));
 
 // ===================== CLIENT RECORDS (saved in this browser only — not GHL) =====================
 // ============ GHL CONNECTION ============
-// Paste the Cloudflare Worker URL here after deploying worker/worker.js (see SETUP.md).
-// Leave it blank to run in browser-only mode (no GHL).
-const RELAY_URL = "https://client-onboarding.lfmp.workers.dev";
+// The API lives on the same address as this page (functions/api), behind the Google login.
+const RELAY_URL = "/api";
 const SUBMIT_TAG = "onboarding-form-submitted";   // must match SUBMIT_TAG on the Worker (its default)
 const CONNECTED = !!RELAY_URL;
-const PASS_KEY = "lfmp_onboarding_passcode";
-function getPass(){ try{ return localStorage.getItem(PASS_KEY)||""; }catch(e){ return ""; } }
-function setPass(v){ try{ localStorage.setItem(PASS_KEY,v); }catch(e){} }
-let needPass=false, busy=false, searchResults=null, searchQ="", linkFrom=null;
+let ME=null, busy=false, searchResults=null, searchQ="", linkFrom=null, authLost=false;
 async function api(path, body){
-  const res = await fetch(RELAY_URL.replace(/\/+$/,"")+path, {
-    method: body?"POST":"GET",
-    headers: { ...(body?{"Content-Type":"application/json"}:{}), ...(getPass()?{"X-Hub-Passcode":getPass()}:{}) },
-    body: body?JSON.stringify(body):undefined });
+  let res;
+  try{ res = await fetch(RELAY_URL+path, { method: body?"POST":"GET", credentials:"same-origin",
+    headers: body?{"Content-Type":"application/json"}:{}, body: body?JSON.stringify(body):undefined }); }
+  catch(e){ throw new Error("Couldn't reach the server. Check your connection and try again."); }
   const data = await res.json().catch(()=>({}));
-  if(res.status===401){ needPass=true; state.view="clients"; render(); throw new Error("Passcode required"); }
-  if(!res.ok) throw new Error(data.error||("Relay error "+res.status));
+  if(res.status===401 || (res.redirected && !/json/.test(res.headers.get("content-type")||""))){ authLost=true; showAuthLost(); throw new Error("Your sign-in has expired. Reload the page."); }
+  if(!res.ok) throw new Error(data.message||data.error||("Server error "+res.status));
   return data;
 }
+function showAuthLost(){ let b=document.getElementById("authLost"); if(b) return; b=document.createElement("div"); b.id="authLost"; b.className="authlost";
+  b.innerHTML='Your sign-in has expired. <button class="navbtn" onclick="location.reload()">Reload to sign in</button>'; document.body.prepend(b); }
+function newKey(){ const a=new Uint8Array(16); crypto.getRandomValues(a); return "k"+Array.from(a,b=>b.toString(16).padStart(2,"0")).join(""); }
+function answersOf(c){ const out={}; Object.entries(c.v).forEach(([k,v])=>{ if(Array.isArray(v)?v.length:String(v??"").trim()!=="") out[k]=v; }); return out; }
+const fmtWhen=iso=>{ try{ return new Date(iso).toLocaleString(undefined,{year:"numeric",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}); }catch(e){ return iso; } };
 const STORE_KEY="lfmp_onboarding_v1";
 let DB={clients:{},current:null};
 let state={view:"clients",step:0,page:0,v:{}};
@@ -572,8 +685,19 @@ async function saveToGHL(c, submit){
   if(!CONNECTED || !c.contactId) return null;
   busy=true; render(true);
   try{
-    const r = await api(`/contact/${c.contactId}/${submit?"submit":"save"}`, { values: dirtyValues(c) });
-    c.dirty=[]; c.lastSync=Date.now(); if(submit) c.submittedAt=Date.now(); saveDB();
+    let r;
+    if(submit){
+      if(!c.pendingKey){ c.pendingKey=newKey(); saveDB(); }      // same key on a retry, so no duplicate record
+      r = await api(`/contact/${c.contactId}/submit`, { submissionKey:c.pendingKey, values: dirtyValues(c), answers: answersOf(c) });
+      c.pendingKey=null;
+      const sub=r.submission; c.latestSub=sub; c.submittedAt=Date.parse(sub.submitted_at)||Date.now();
+      if(sub.status==="saved"){ c.dirty=[]; c.lastSync=Date.now(); }
+    } else {
+      r = await api(`/contact/${c.contactId}/save`, { values: dirtyValues(c) });
+      c.dirty=[]; c.lastSync=Date.now();
+    }
+    if(r.activity) c.activity=r.activity; else if(ME) c.activity={last_saved_at:new Date().toISOString(),last_saved_by_name:ME.name,last_saved_by_email:ME.email};
+    saveDB();
     const sk=(r.skipped||[]); if(sk.length) console.warn("Skipped fields:",sk);
     return r;
   } finally { busy=false; render(true); }
@@ -585,7 +709,10 @@ async function openGHLContact(contactId){
     const id="ghl_"+contactId; const local=DB.clients[id];
     const v={...r.values};
     if(local && local.dirty && local.dirty.length) local.dirty.forEach(k=>{ v[k]=local.v[k]; });   // keep unsaved local edits
-    DB.clients[id]={ id, contactId, v, dirty: local?.dirty||[], updated: Date.now(), lastSync: Date.now(), submittedAt: ((r.contact.tags||[]).includes(SUBMIT_TAG) ? (local?.submittedAt||Date.now()) : local?.submittedAt), contactLabel: r.contact.name||r.contact.email||"" };
+    const ls=r.latestSubmission||null;
+    DB.clients[id]={ id, contactId, v, dirty: local?.dirty||[], updated: Date.now(), lastSync: Date.now(), pendingKey: local?.pendingKey||null,
+      latestSub: ls, activity: r.activity||null, tagged: (r.contact.tags||[]).includes(SUBMIT_TAG),
+      submittedAt: ls ? Date.parse(ls.submitted_at) : ((r.contact.tags||[]).includes(SUBMIT_TAG) ? (local?.submittedAt||Date.now()) : local?.submittedAt), contactLabel: r.contact.name||r.contact.email||"" };
     searchResults=null; saveDB(); busy=false; openClient(id);
   } catch(e){ busy=false; render(true); toast("Couldn't load the contact: "+e.message); }
 }
@@ -599,7 +726,9 @@ async function linkClient(localId, contactId){
     Object.entries(local.v).forEach(([k,val])=>{ const has=Array.isArray(val)?val.length:String(val??"").trim()!==""; if(!has) return;
       if(STD.has(k) && String(v[k]??"").trim()!=="") return;   // keep GHL's existing name/email/address
       v[k]=val; if(!dirty.includes(k)) dirty.push(k); });
-    DB.clients[id]={ id, contactId, v, dirty, updated: Date.now(), lastSync: existing?.lastSync, submittedAt: ((r.contact.tags||[]).includes(SUBMIT_TAG) ? (existing?.submittedAt||Date.now()) : existing?.submittedAt), contactLabel: r.contact.name||r.contact.email||"" };
+    const ls=r.latestSubmission||null;
+    DB.clients[id]={ id, contactId, v, dirty, updated: Date.now(), lastSync: existing?.lastSync, latestSub: ls, activity: r.activity||null, tagged: (r.contact.tags||[]).includes(SUBMIT_TAG),
+      submittedAt: ls ? Date.parse(ls.submitted_at) : ((r.contact.tags||[]).includes(SUBMIT_TAG) ? (existing?.submittedAt||Date.now()) : existing?.submittedAt), contactLabel: r.contact.name||r.contact.email||"" };
     delete DB.clients[localId]; linkFrom=null; searchResults=null; saveDB(); busy=false;
     openClient(id); toast(`Linked to the GHL contact. ${dirty.length} answer${dirty.length===1?"":"s"} will be saved on the next Finish step or Save to GHL.`);
   } catch(e){ busy=false; render(true); toast("Couldn't link: "+e.message); }
@@ -632,7 +761,7 @@ function exportAllCSV(){
   state.v=keep;
   download(`LFMP_onboarding_all_clients_${new Date().toLocaleDateString("en-CA")}.csv`,"﻿"+[head,keyRow,...rows].map(r=>r.map(csvCell).join(",")).join("\r\n"),"text/csv;charset=utf-8");
 }
-function submissionHTML(c){
+function submissionHTML(c, meta){
   const keep=state.v; state.v=c.v;
   const fmt=(f)=>{ const v=c.v[f.key]; const has=Array.isArray(v)?v.length:String(v??"").trim()!=="";
     if(!has) return '<span class="empty">Not answered</span>';
@@ -652,7 +781,9 @@ function submissionHTML(c){
   });
   state.v=keep;
   const when=new Date().toLocaleString();
-  return `<!doctype html><html><head><meta charset="utf-8"><title>${esc(fileSafe(cName(c)))}_onboarding</title><style>
+  const fname=fileSafe(cName(c))+"_onboarding"+(meta?"_"+String(meta.submitted_at).slice(0,10):"");
+  const statusTxt=meta?({saved:"Submitted · saved to GHL",ghl_failed:"Stored · GHL save failed",stored:"Stored · GHL save pending"}[meta.status]||meta.status):"";
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${esc(fname)}</title><style>
   @page{size:Letter;margin:14mm 14mm 16mm}
   body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1d2433;font-size:11pt;line-height:1.4;margin:0}
   header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1B2A5E;padding-bottom:10px;margin-bottom:6px}
@@ -665,20 +796,22 @@ function submissionHTML(c){
   .empty{color:#9aa3b5;font-style:italic} .req{color:#c53030}
   .st{font-size:8.5pt;font-weight:600;padding:1px 8px;border-radius:999px;background:#eef1f6;color:#5b6475;vertical-align:middle;margin-left:6px}
   h2 .st{background:rgba(255,255,255,.18);color:#fff} .st.ok{background:#eaf7ef;color:#1f9d55} h2 .st.ok{background:#1f9d55;color:#fff} .st.pend{background:#fff6e5;color:#b7791f}
+  .info{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 18px;font-size:9.5pt;background:#f6f7fb;border-radius:6px;padding:8px 10px;margin:8px 0 6px} .info b{color:#5b6475;font-weight:600}
   .pg{break-inside:auto} footer{margin-top:18px;font-size:8.5pt;color:#9aa3b5;border-top:1px solid #e3e7ef;padding-top:6px}
   </style></head><body>
-  <header><img src="${LOGO}" alt="Law Firm Marketing Pros"><div class="meta">Client Onboarding Submission<br>Exported ${esc(when)}</div></header>
+  <header><img src="${LOGO}" alt="Law Firm Marketing Pros"><div class="meta">${meta?`Client Onboarding Submission<br>${esc(meta.id)} · v${esc(meta.version)}`:`Current answers (not a stored submission)<br>Exported ${esc(when)}`}</div></header>
   <h1>${esc(cName(c))}</h1>
+  ${meta?`<div class="info"><div><b>Contact:</b> ${esc(meta.contact_name||"")}</div><div><b>Email:</b> ${esc(meta.email||"")}</div><div><b>Submitted:</b> ${esc(fmtWhen(meta.submitted_at))}</div><div><b>Submitted by:</b> ${esc(meta.submitted_by_name||"")} (${esc(meta.submitted_by_email||"")})</div><div><b>Status:</b> ${esc(statusTxt)}</div><div><b>Downloaded:</b> ${esc(when)}${ME?" by "+esc(ME.name):""}</div></div>`:""}
   <p class="sub">Source: Onboarding Form v3 · Questions hidden by the form's conditional rules are left out · * = required on the original form</p>
   ${body}
-  <footer>Law Firm Marketing Pros · Internal onboarding record · Not synced to GHL</footer>
+  <footer>Law Firm Marketing Pros · Internal onboarding record · ${meta?"Stored submission "+esc(meta.id):"Current answers in this browser, not a stored submission"}</footer>
   </body></html>`;
 }
-function exportPDF(c){
+function exportPDF(c, meta){
   let fr=document.getElementById("printFrame"); if(fr) fr.remove();
   fr=document.createElement("iframe"); fr.id="printFrame"; fr.style.cssText="position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden";
   document.body.appendChild(fr);
-  const d=fr.contentWindow.document; d.open(); d.write(submissionHTML(c)); d.close();
+  const d=fr.contentWindow.document; d.open(); d.write(submissionHTML(c, meta)); d.close();
   const go=()=>{ try{ fr.contentWindow.focus(); fr.contentWindow.print(); }catch(e){ toast("Printing was blocked by the browser"); } };
   const img=d.querySelector("img"); if(img && !img.complete){ img.onload=go; img.onerror=go; } else setTimeout(go,150);
 }
@@ -735,17 +868,29 @@ function topnavHTML(){
   return `<div class="topnav"><div style="display:flex;align-items:center;gap:10px">
     <img class="logo" src="${LOGO}" alt="Law Firm Marketing Pros" style="display:none" onload="this.style.display='block';this.nextElementSibling.style.display='none'">
     <div class="brand">LFMP <span>·</span> Law Firm Marketing Pros</div></div>
-    <div class="right">${state.view!=="clients"?`<span>Client: <b>${esc(clientName())}</b></span><button class="navbtn" data-act="clients">Switch client</button>`:""}</div></div>`;
+    <div class="right">${(state.view==="hub"||state.view==="step")?`<span>Client: <b>${esc(clientName())}</b></span><button class="navbtn" data-act="clients">Switch client</button>`:""}</div></div>`;
 }
 function syncBar(){
   if(!CONNECTED) return "";
   const c=DB.clients[DB.current]; if(!c) return "";
   if(!c.contactId) return `<div class="syncbar warn">This client exists in this browser only and isn't linked to a GHL contact yet.${c.sample?"":` <button class="navbtn" data-act="linkstart">Link to GHL contact</button>`}</div>`;
   const n=dirtyCount(c);
-  return `<div class="syncbar ${n?"warn":"ok"}">${busy?"Saving to GHL…":n?`${n} unsaved change${n>1?"s":""}`:`All changes saved to GHL${c.lastSync?" · "+new Date(c.lastSync).toLocaleTimeString():""}`}
-    ${n&&!busy?`<button class="navbtn" data-act="savenow">Save to GHL now</button>`:""}${c.submittedAt?` <span class="sim">Submitted ${new Date(c.submittedAt).toLocaleString()}</span>`:""}</div>`;
+  const a=c.activity, ls=c.latestSub;
+  return `<div class="syncbar ${n?"warn":"ok"}">${busy?"Saving to GHL…":n?`${n} unsaved change${n>1?"s":""}`:`All changes saved to GHL`}
+    ${n&&!busy?`<button class="navbtn" data-act="savenow">Save to GHL now</button>`:""}
+    ${a&&a.last_saved_at?` <span class="sim">Last saved ${esc(fmtWhen(a.last_saved_at))} by ${esc(a.last_saved_by_name||a.last_saved_by_email||"")}</span>`:""}
+    ${ls?` <span class="sim">· Submitted${ls.version>1?" (v"+ls.version+")":""} ${esc(fmtWhen(ls.submitted_at))} by ${esc(ls.submitted_by_name||"")}${ls.status!=="saved"?' <b style="color:var(--amber)">· GHL save failed</b>':""}</span>`:(c.tagged?` <span class="sim">· Tagged as submitted in GHL (before Submissions existed)</span>`:"")}</div>`;
+}
+function saveStatus(){
+  if(!CONNECTED) return "";
+  const c=DB.clients[DB.current]; if(!c) return "";
+  if(!c.contactId) return `<div class="savestat warn"><span class="ssdot"></span><span>Browser only</span><button class="ss-btn" data-act="linkstart">Link to GHL</button></div>`;
+  const n=dirtyCount(c), a=c.activity;
+  const tip=a&&a.last_saved_at?`Last saved ${fmtWhen(a.last_saved_at)} by ${a.last_saved_by_name||a.last_saved_by_email||""}`:"";
+  return `<div class="savestat ${busy?"busy":n?"warn":"ok"}" title="${esc(tip)}" aria-live="polite"><span class="ssdot"></span><span>${busy?`<span class="t-lg">Saving to GHL…</span><span class="t-sm">Saving…</span>`:n?`${n} unsaved<span class="t-lg"> change${n>1?"s":""}</span>`:`<span class="t-lg">All changes saved to GHL</span><span class="t-sm">Saved to GHL</span>`}</span>${n&&!busy?`<button class="ss-btn" data-act="savenow">Save now</button>`:""}</div>`;
 }
 function renderHub(){
+  const nextIdx = STEPS.findIndex(st=>stepState(st)!=="done");
   const cards = STEPS.map((st,i)=>{
     const s=stepState(st), m=missing(st);
     const meta = `<div class="m">${esc(st.sections)}${s==="done"?"":` · ${m} missing item${m===1?"":"s"}`}</div>`;
@@ -754,7 +899,7 @@ function renderHub(){
       : `<span class="pill ${s}">${s==="prog"?"In progress":"Not started"}</span><button class="arrow" data-open="${i}" aria-label="Open">→</button>`;
     return `<div class="stepcard ${s==="done"?"done":""}" data-open="${i}">
       <div class="check">${s==="done"?"✓":""}</div>
-      <div class="grow"><div class="t">${E("step."+st.id+".title",st.title)} ${s==="done"?chip("proposed tag (simulated): "+st.tag):""}</div>${meta}</div>${right}</div>`;
+      <div class="grow"><div class="t">${E("step."+st.id+".title",st.title)} ${i===nextIdx?'<span class="pill starthere">Start here</span>':""}</div>${meta}</div>${right}</div>`;
   }).join("");
   const allDone = STEPS.every(s=>stepState(s)==="done");
   return `${topnavHTML()}
@@ -762,8 +907,8 @@ function renderHub(){
     <div class="eyebrow">${E("hub.eyebrow","CLIENT ONBOARDING")}</div>
     <h1>${esc(clientName())}</h1>
     ${syncBar()}
-    <p class="sub">${E("hub.intro","Complete each step with the client. Steps can be done in any order, and you can come back to any step to make changes.")}</p>
-    ${allDone?`<div class="status-note g" style="margin-bottom:14px;text-align:center">${E("hub.allDone","🎉 All steps complete.")} <span class="sim">Not sent to GHL yet. An admin can export the answers.</span></div>`:""}
+    <p class="sub">${E("hub.intro","Work through the 4 steps with the client, in any order. Each step ends with Finish step, which saves the answers to GHL. When you're ready, submit on the last page of Step 4.")}</p>
+    ${allDone?`<div class="status-note g" style="margin-bottom:14px;text-align:center">${E("hub.allDone","🎉 All steps complete.")} <span class="sim">Go to Step 4 to submit.</span></div>`:""}
     ${cards}
     <p class="sim" style="text-align:center;margin-top:18px">${CONNECTED?(storageOK?"Unsaved changes are kept in this browser until saved to GHL":"⚠ This browser is blocking storage. Save to GHL often."):(storageOK?"Saved in this browser":"⚠ This browser is blocking storage, so answers will be lost when the tab closes")} · last change ${new Date(DB.clients[DB.current].updated).toLocaleString()}</p>
   </div>`;
@@ -771,41 +916,47 @@ function renderHub(){
 
 // ===================== CLIENT LIST =====================
 let pendingDelete=null, expOpen=null, submitArm=false;
+function guideHidden(){ try{ return localStorage.getItem("lfmp_hide_guide")==="1"; }catch(e){ return false; } }
+function setGuide(hide){ try{ hide?localStorage.setItem("lfmp_hide_guide","1"):localStorage.removeItem("lfmp_hide_guide"); }catch(e){} }
 function renderClients(){
   const list=Object.values(DB.clients).sort((a,b)=>b.updated-a.updated);
   const rows=list.map(c=>{ state.v=c.v; const done=STEPS.filter(s=>stepState(s)==="done").length; const miss=STEPS.reduce((n,s)=>n+missing(s),0);
     return `<div class="stepcard clientrow" data-client="${c.id}">
       <div class="check" style="${done===4?"background:var(--green);border-color:var(--green)":""}">${done===4?"✓":""}</div>
-      <div class="grow"><div class="t">${esc(cName(c))}${c.sample?' <span class="pill not" style="font-size:11px;padding:2px 8px">sample</span>':""}${CONNECTED&&!c.contactId&&!c.sample?' <span class="pill not" style="font-size:11px;padding:2px 8px">browser only</span>':""}${c.submittedAt?' <span class="pill" style="font-size:11px;padding:2px 8px;background:var(--green-bg);color:var(--green)">submitted</span>':""}${dirtyCount(c)&&c.contactId?` <span class="pill" style="font-size:11px;padding:2px 8px;background:var(--amber-bg);color:var(--amber)">${dirtyCount(c)} unsaved</span>`:""}</div>
-        <div class="m">${done} of 4 steps complete · ${miss} open item${miss===1?"":"s"} · updated ${new Date(c.updated).toLocaleDateString()}</div></div>
+      <div class="grow"><div class="t">${esc(cName(c))}${c.sample?' <span class="pill not" style="font-size:11px;padding:2px 8px">sample</span>':""}${CONNECTED&&!c.contactId&&!c.sample?' <span class="pill not" style="font-size:11px;padding:2px 8px">browser only</span>':""}${c.submittedAt?` <span class="pill" style="font-size:11px;padding:2px 8px;background:var(--green-bg);color:var(--green)">submitted${c.latestSub&&c.latestSub.version>1?" v"+c.latestSub.version:""}</span>`:""}${dirtyCount(c)&&c.contactId?` <span class="pill" style="font-size:11px;padding:2px 8px;background:var(--amber-bg);color:var(--amber)">${dirtyCount(c)} unsaved</span>`:""}</div>
+        <div class="m">${done} of 4 steps complete · ${miss} open item${miss===1?"":"s"} · ${c.activity&&c.activity.last_saved_by_name?`last saved by ${esc(c.activity.last_saved_by_name)} ${esc(fmtWhen(c.activity.last_saved_at))}`:`updated ${new Date(c.updated).toLocaleDateString()}`}</div></div>
       <div class="rowactions">${admin?`<span class="expwrap"><button class="navbtn exp" data-exp="${c.id}">Export ▾</button>${expOpen===c.id?`<div class="expmenu">
         <button data-expfmt="pdf" data-cid="${c.id}"><b>PDF</b><small>Submission, for sharing or printing</small></button>
         <button data-expfmt="csv" data-cid="${c.id}"><b>CSV</b><small>Opens in Excel / Google Sheets</small></button>
         <button data-expfmt="json" data-cid="${c.id}"><b>JSON</b><small>For a later GHL import</small></button></div>`:""}</span>`:""}
       ${CONNECTED && !c.contactId && !c.sample ? `<button class="navbtn" data-link="${c.id}">Link to GHL</button>` : ""}
       <button class="navbtn" data-del="${c.id}">${pendingDelete===c.id?"Click again to delete":"Delete"}</button>
-      ${c.submittedAt?`<button class="navbtn dl" data-dl="${c.id}" title="Submitted ${new Date(c.submittedAt).toLocaleString()}">⬇ Download submission</button>`:`<span class="pill incomplete" title="Not submitted yet">Incomplete</span>`}
+      ${c.latestSub?`<button class="navbtn dl" data-subpdf="${esc(c.latestSub.id)}" title="Submitted ${esc(fmtWhen(c.latestSub.submitted_at))} by ${esc(c.latestSub.submitted_by_name||"")}">⬇ Download submission</button>`:c.submittedAt?`<button class="navbtn dl" data-dl="${c.id}" title="Tagged as submitted in GHL before Submissions existed. Downloads the current answers.">⬇ Current answers</button>`:`<span class="pill incomplete" title="Not submitted yet">Incomplete</span>`}
       <button class="arrow" data-client="${c.id}" aria-label="Open">→</button></div></div>`; }).join("");
   return `${topnavHTML()}
   <div class="wrap">
     <div class="eyebrow">${E("clients.eyebrow","LFMP TEAM")}</div>
     <h1>${E("clients.title","Client Onboarding")}</h1>
-    <p class="sub">${E("clients.intro","Pick a client to continue, or start a new one.")}</p>
-    ${CONNECTED && needPass ? `<div class="box" style="margin-bottom:18px;border-color:#e0c25c;background:#fffbea"><div class="field" style="margin:0"><label>Team passcode</label>
-      <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="password" id="passIn" placeholder="Enter the team passcode" style="flex:1;min-width:200px">
-      <button class="btn-primary" data-act="setpass">Continue →</button></div><div class="help">Saved in this browser so you only enter it once.</div></div></div>` : ""}
+    <p class="sub">${E("clients.intro","Fill in a client's onboarding with them, step by step. Answers save straight to their GHL contact.")}</p>
+    ${CONNECTED && !guideHidden() ? `<div class="howto" aria-label="How it works">
+      <div class="howto-h"><b>How it works</b><button class="linkish" data-act="hideguide">Hide</button></div>
+      <ol>
+        <li><span class="hn">1</span><div><b>Find the client</b><small>Search their GHL contact below by name, company or email, then open it.</small></div></li>
+        <li><span class="hn">2</span><div><b>Complete the 4 steps</b><small>Go through each step with the client. <em>Finish step</em> saves to GHL. You can stop and come back anytime.</small></div></li>
+        <li><span class="hn">3</span><div><b>Submit</b><small>On the last page of Step 4, click Submit. It's saved under <em>Submissions</em> and starts the onboarding workflow.</small></div></li>
+      </ol></div>` : (CONNECTED ? `<p class="sim" style="text-align:center;margin:-6px 0 14px"><button class="linkish" data-act="showguide">Show “How it works”</button></p>` : "")}
     ${CONNECTED && linkFrom && DB.clients[linkFrom] ? `<div class="status-note p" style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span>Linking <b>${esc(cName(DB.clients[linkFrom]))}</b>: search for the matching GHL contact and pick it. The answers already entered are kept and saved to that contact on the next Finish step.</span><button class="navbtn" data-act="linkcancel">Cancel</button></div>` : ""}
-    ${CONNECTED ? `<div class="box" style="margin-bottom:18px"><div class="field" style="margin:0"><label>Find the client's GHL contact</label>
+    ${CONNECTED ? `<div class="box" style="margin-bottom:18px"><div class="field" style="margin:0"><label>1 · Find the client's GHL contact</label>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="text" id="searchIn" value="${esc(searchQ)}" placeholder="Name, company, email or phone" style="flex:1;min-width:200px">
       <button class="btn-primary" data-act="search" ${busy?"disabled":""}>${busy?"Searching…":"Search"}</button></div>
-      <div class="help">Answers are saved to this contact in GHL. Clicking Submit adds the tag <code>${SUBMIT_TAG}</code>.</div></div>
+      <div class="help">Answers are saved to this contact in GHL. Submit stores a copy under Submissions and adds the tag <code>${SUBMIT_TAG}</code>.</div></div>
       ${searchResults ? (searchResults.length ? `<div class="results">${searchResults.map(r=>`<button class="result" data-ghl="${esc(r.id)}"><b>${esc(r.company||r.name||"(no name)")}</b><span>${esc([r.company?r.name:"",r.email,r.phone].filter(Boolean).join(" · "))}</span></button>`).join("")}</div>` : `<p class="sim" style="margin-top:10px">No contacts found.</p>`) : ""}
     </div>` : `<div class="box" style="margin-bottom:18px"><div class="field" style="margin:0"><label>Start a new client</label>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="text" id="newName" placeholder="Firm name (saved as Company)" style="flex:1;min-width:200px">
       <button class="btn-primary" data-act="newclient">Start →</button></div></div></div>`}
     ${CONNECTED && Object.keys(DB.clients).length ? `<h3 class="subhead" style="font-size:16px">Opened on this computer</h3>` : ""}
-    ${rows||(CONNECTED?'':'<p class="sub">No clients yet.</p>')}
-    <p class="sim" style="text-align:center;margin-top:18px">${CONNECTED?"Answers are saved to GHL when you finish a step or submit. This list only shows clients opened on this computer.":"Clients and answers are saved in this browser only. Another computer won't see them until the GHL connection is built."}</p>
+    ${rows||(CONNECTED?(searchResults?'':`<div class="emptystate"><b>No clients opened on this computer yet.</b><span>Search for your client above to start. Already submitted clients are under the <a href="#" data-act="gosubs">Submissions</a> tab.</span></div>`):'<p class="sub">No clients yet.</p>')}
+    <p class="sim" style="text-align:center;margin-top:18px">${CONNECTED?"Answers are saved to GHL when you finish a step or submit. This list shows clients opened on this computer; every submitted client is under Submissions.":"Clients and answers are saved in this browser only. Another computer won't see them until the GHL connection is built."}</p>
   </div>`;
 }
 
@@ -838,14 +989,29 @@ function itemHTML(it){
   if(it.style==="eyebrow") return `<div class="eyebrow" style="text-align:left;margin-bottom:10px">${E("n."+it.n,it.text)}</div>`;
   return `<div class="note ${it.style==="section"?"section":""}">${E("n."+it.n,it.text)}<div class="maprow">${chip("#"+it.n,"soft")}${it.flag?" "+chip("⚠ "+it.flag,"miss"):""}</div></div>`;
 }
-function trackerHTML(step){
-  const items = step.pages.map((p,i)=>{
-    const s=pageState(p); const cls = DONE(s)?(s==="na"?"n":"g"):s==="pending"?"p":s==="info"?"i":"";
-    const icon = DONE(s)?(s==="na"?"–":"✓"):s==="pending"?"!":s==="info"?"i":"";
-    return `<button class="trk ${cls} ${i===state.page?"cur":""}" data-page="${i}"><span class="dot">${icon}</span>${esc(T("p."+p.id+".title",p.title))}</button>`;
-  });
-  items.push(`<button class="trk ${state.page===step.pages.length?"cur":""}" data-page="${step.pages.length}"><span class="dot"></span>${esc(T("ui.summary","Summary"))}</button>`);
-  return items.join('<span class="trk-sep"></span>');
+let navOpen=false;   // UI only: whether the "All sections" menu is open
+const PAGE_ICON = s => DONE(s)?(s==="na"?"–":"✓"):s==="pending"?"!":s==="info"?"i":"";
+const PAGE_CLS  = s => DONE(s)?(s==="na"?"n":"g"):s==="pending"?"p":s==="info"?"i":"u";
+function stepperHTML(step){
+  const n=step.pages.length, isSum=state.page===n;
+  const st=step.pages.map(pageState);
+  const countable=step.pages.map((_,i)=>i).filter(i=>!step.pages[i].infoOnly);
+  const doneN=countable.filter(i=>DONE(st[i])).length;
+  const title=i=>T("p."+step.pages[i].id+".title",step.pages[i].title);
+  const curName=isSum?T("ui.summary","Summary"):title(state.page);
+  const segs=step.pages.map((p,i)=>`<button class="seg ${PAGE_CLS(st[i])} ${i===state.page?"cur":""}" data-page="${i}" title="${esc(title(i))} · ${STATE_LABEL[st[i]][1]}" aria-label="${esc(title(i))}, ${STATE_LABEL[st[i]][1]}"></button>`).join("")
+    + `<button class="seg sum ${isSum?"cur":""}" data-page="${n}" title="${esc(T("ui.summary","Summary"))}" aria-label="${esc(T("ui.summary","Summary"))}"></button>`;
+  const items=step.pages.map((p,i)=>`<button class="secitem ${i===state.page?"cur":""}" role="menuitem" data-page="${i}" ${i===state.page?'aria-current="step"':""}>
+      <span class="sdot ${PAGE_CLS(st[i])}">${PAGE_ICON(st[i])}</span><span class="sname">${esc(title(i))}</span><span class="sstat">${p.infoOnly?"Info":STATE_LABEL[st[i]][1]}</span></button>`).join("")
+    + `<div class="secdiv"></div><button class="secitem ${isSum?"cur":""}" role="menuitem" data-page="${n}"><span class="sdot u">≡</span><span class="sname">${esc(T("ui.summary","Summary"))}</span><span class="sstat">${doneN} of ${countable.length} done</span></button>`;
+  return `<div class="sh-row2">
+      <div class="sh-label"><span class="sh-count">Page ${state.page+1} of ${n+1}</span><span class="sh-sep">—</span><span class="sh-name">${esc(curName)}</span></div>
+      <div class="secmenu">
+        <button class="secbtn" data-act="secmenu" aria-haspopup="menu" aria-expanded="${navOpen}" aria-controls="secpanel">All sections <span class="chev">▾</span></button>
+        ${navOpen?`<div class="secpanel" id="secpanel" role="menu">${items}</div>`:""}
+      </div>
+    </div>
+    <div class="sh-row3"><div class="segbar" role="group" aria-label="Section progress">${segs}</div><span class="sh-done">${doneN} of ${countable.length} complete</span></div>`;
 }
 function summaryHTML(step){
   const rows = step.pages.map((p,i)=>{
@@ -859,7 +1025,7 @@ function summaryHTML(step){
   const m=missing(step);
   return `<div class="box">${rows}</div>
     <div class="status-note ${m?"p":"g"}" style="margin-top:14px">${m? `${m} item${m===1?"":"s"} still open. You can finish this step now and come back later.`:"Everything in this step is done. 🎉"}</div>
-    <p class="sim" style="margin-top:10px">Not connected to GHL yet. When it is, finishing a step will save to the contact and add tag <code>${step.tag}</code>.</p>`;
+    <p class="sim" style="margin-top:10px">${CONNECTED?"Click <b>Finish step</b> to save this step's answers to the client's GHL contact.":"Not connected to GHL."}</p>`;
 }
 function renderPage(){
   const step=STEPS[state.step]; const n=step.pages.length; const isSum=state.page===n; const p=step.pages[state.page];
@@ -872,6 +1038,7 @@ function renderPage(){
     const secLine = `SECTION ${p.sec} OF 17${p.secTitle?" · "+p.secTitle.toUpperCase():""}`;
     head=`<div class="eyebrow">${esc(secLine)}</div><h2>${E("p."+p.id+".title",p.title)}</h2>`;
     body=`<div class="box">${orderedItems(p).map(itemHTML).join("")}</div>`;
+    if(p.submit && CONNECTED) body+=`<div class="status-note b" style="margin-top:14px"><b>What Submit does:</b> saves a permanent copy under <em>Submissions</em> (with your name and the date), updates the client's GHL contact, and adds the tag <code>${SUBMIT_TAG}</code>, which starts the onboarding workflow. Submitting again later creates a new version.</div>`;
     const st=pageFields(p).find(f=>f.status);
     if(p.submit){ const c=DB.clients[DB.current]; const live=CONNECTED&&c&&c.contactId;
       actions = live ? `<button class="btn-primary" data-act="submit" ${busy?"disabled":""}>${busy?"Submitting…":submitArm?"Click again to submit anyway":E("btn.submit","Submit")+" to GHL"}</button>`
@@ -881,12 +1048,14 @@ function renderPage(){
     else actions=`<button class="btn-primary" data-act="save">${E("btn.save","Save & continue →")}</button>`;
   }
   return `
-  <div class="stephead">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><button class="back-hub" data-act="hub">${E("btn.backHub","← Back to hub")}</button><span style="font-size:13px;color:var(--muted)">Client: <b>${esc(clientName())}</b></span></div>
-    <div class="crumb"><b>${E("step."+step.id+".short",step.short)}</b> <span>· Page ${Math.min(state.page+1,n+1)} of ${n+1}</span></div>
-    <div class="tracker">${trackerHTML(step)}</div>
-    ${syncBar()}
-  </div>
+  <div class="stephead"><div class="sh-inner">
+    <div class="sh-row1">
+      <button class="back-hub sm" data-act="hub">${E("btn.backHub","← Back to hub")}</button>
+      <div class="sh-ctx"><span class="sh-step">Step ${state.step+1} of ${STEPS.length} · <b>${E("step."+step.id+".short",step.short)}</b></span><span class="sh-client" title="${esc(clientName())}">${esc(clientName())}</span>${(()=>{ const c=DB.clients[DB.current], ls=c&&c.latestSub; return ls?`<span class="sh-sub ${ls.status==="saved"?"":"warn"}" title="Submitted ${esc(fmtWhen(ls.submitted_at))} by ${esc(ls.submitted_by_name||"")}">${ls.status==="saved"?"Submitted":"GHL save failed"}${ls.version>1?" v"+ls.version:""}</span>`:""; })()}</div>
+      ${saveStatus()}
+    </div>
+    ${stepperHTML(step)}
+  </div></div>
   <div class="panel">${head}${body}</div>
   <div class="footer">
     <button class="btn-back" data-act="back" ${state.page===0?"disabled":""}>← Back</button>
@@ -896,17 +1065,153 @@ function renderPage(){
 }
 function render(keepScroll){
   const y=window.scrollY;
-  $("#app").innerHTML = state.view==="clients" ? renderClients() : state.view==="hub" ? renderHub() : renderPage();
+  $("#app").innerHTML = state.view==="clients" ? renderClients() : state.view==="subs" ? renderSubs() : state.view==="sub" ? renderSub() : state.view==="hub" ? renderHub() : renderPage();
+  document.querySelectorAll(".navtab").forEach(b=>b.classList.toggle("on", b.dataset.tab===((state.view==="subs"||state.view==="sub")?"subs":"clients")));
   window.scrollTo(0, keepScroll?y:0);
 }
 
+// ===================== SUBMISSIONS (stored in the database, shared by the whole team) =====================
+const SUB={ q:"", status:"all", sort:"new", page:1, per:25, all:false, data:null, loading:false, error:"", current:null, rec:null, recErr:"", retrying:false };
+const SUB_STATUS={saved:["g","Saved to GHL"],ghl_failed:["p","GHL save failed"],stored:["p","GHL save pending"]};
+function subQuery(extra){ const p=new URLSearchParams({q:SUB.q,status:SUB.status,sort:SUB.sort,page:SUB.page,per:SUB.per,all:SUB.all?"1":"0",...(extra||{})}); return "/submissions?"+p; }
+let subSeq=0;
+async function loadSubs(){
+  const seq=++subSeq; SUB.loading=true; SUB.error=""; state.view="subs"; render(true);
+  try{ const d=await api(subQuery()); if(seq!==subSeq) return; SUB.data=d; }
+  catch(e){ if(seq!==subSeq) return; SUB.error=e.message; }
+  finally{ if(seq===subSeq){ SUB.loading=false; if(state.view==="subs") render(true); } }
+}
+async function openSub(id){
+  SUB.current=id; SUB.rec=null; SUB.recErr=""; state.view="sub"; render();
+  try{ SUB.rec=await api("/submissions/"+encodeURIComponent(id)); } catch(e){ SUB.recErr=e.message; }
+  if(state.view==="sub" && SUB.current===id) render(true);
+}
+async function getSub(id){ return (SUB.rec && SUB.rec.submission.id===id) ? SUB.rec : api("/submissions/"+encodeURIComponent(id)); }
+async function subPDF(id){
+  try{ const r=await getSub(id); exportPDF({v:r.submission.answers}, r.submission); toast("Opening the print window. Choose \"Save as PDF\"."); }
+  catch(e){ toast("Couldn't open the submission: "+e.message); }
+}
+async function subJSON(id){
+  try{ const r=await getSub(id); const s=r.submission;
+    download(`${fileSafe(s.company||"client")}_onboarding_${String(s.submitted_at).slice(0,10)}_v${s.version}.json`,
+      JSON.stringify({ submission_id:s.id, version:s.version, contact_id:s.contact_id, company:s.company, contact_name:s.contact_name, email:s.email,
+        submitted_at:s.submitted_at, submitted_by:{name:s.submitted_by_name,email:s.submitted_by_email}, ghl_status:s.status, ghl_error:s.ghl_error||null,
+        source_form:"Onboarding Form v3 (DRAFT) "+(s.form_id||""), answers:s.answers },null,2),"application/json");
+    toast("JSON downloaded (this submission only)"); }
+  catch(e){ toast("Couldn't download: "+e.message); }
+}
+async function subCSV(){
+  toast("Preparing CSV…");
+  try{ const d=await api(subQuery({full:"1",page:"1"})); const fs=allFields();
+    const head=["Submission ID","Version","Client","Contact","Email","Submitted (UTC)","Submitted by","Submitted by email","GHL status",...fs.map(({f})=>`#${f.n} ${f.label}`)];
+    const keyRow=["","","","","","","","","(GHL field key)",...fs.map(({f})=>mapKey(f.key))];
+    const rows=d.items.map(s=>[s.id,s.version,s.company||"",s.contact_name||"",s.email||"",s.submitted_at,s.submitted_by_name||"",s.submitted_by_email||"",(SUB_STATUS[s.status]||["",s.status])[1],
+      ...fs.map(({f})=>{ const v=s.answers[f.key]; return f.t==="password"&&v?"(entered; hidden)":(v??""); })]);
+    download(`LFMP_onboarding_submissions_${new Date().toLocaleDateString("en-CA")}.csv`,"﻿"+[head,keyRow,...rows].map(r=>r.map(csvCell).join(",")).join("\r\n"),"text/csv;charset=utf-8");
+    toast(`CSV downloaded (${rows.length} submission${rows.length===1?"":"s"})`); }
+  catch(e){ toast("CSV export failed: "+e.message); }
+}
+async function retrySub(id){
+  SUB.retrying=true; render(true);
+  try{ const r=await api(`/submissions/${encodeURIComponent(id)}/retry`,{}); 
+    if(SUB.rec) SUB.rec.submission={...SUB.rec.submission,...r.submission};
+    const loc=DB.clients["ghl_"+r.submission.contact_id]; if(loc && r.submission.status==="saved"){ loc.latestSub=r.submission; saveDB(); }
+    toast(r.submission.status==="saved"?"Saved to GHL and tagged.":"GHL save failed again: "+(r.ghlError||r.submission.ghl_error)); }
+  catch(e){ toast("Retry failed: "+e.message); }
+  finally{ SUB.retrying=false; render(true); }
+}
+function renderSubs(){
+  const d=SUB.data; let body;
+  if(SUB.loading && !d) body=`<div class="box" style="text-align:center;padding:40px"><div class="spinner"></div><p class="sim">Loading submissions…</p></div>`;
+  else if(SUB.error) body=`<div class="status-note p" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><b>Couldn't load submissions.</b> ${esc(SUB.error)} Nothing was lost. <button class="navbtn" data-act="subreload">Try again</button></div>`;
+  else if(d && !d.total && !SUB.q && SUB.status==="all") body=`<div class="box" style="text-align:center;padding:40px"><div style="font-size:34px">📭</div><h3 style="color:var(--navy);margin:6px 0">No submissions yet</h3><p class="sim">When a client onboarding is submitted from the hub, it appears here.</p></div>`;
+  else if(d && !d.total) body=`<div class="box" style="text-align:center;padding:30px"><p>No submissions match your search or filter.</p><button class="navbtn" data-act="subclear">Clear search and filter</button></div>`;
+  else if(d){ const pages=Math.max(1,Math.ceil(d.total/d.per));
+    body=`<div class="box tablebox${SUB.loading?" dim":""}"><table class="subtable"><thead><tr><th>Client</th><th>Contact</th><th>Submitted</th><th>By</th><th>Status</th><th></th></tr></thead><tbody>
+      ${d.items.map(r=>{ const [c,l]=SUB_STATUS[r.status]||["u",r.status]; return `<tr data-subopen="${esc(r.id)}">
+        <td><b>${esc(r.company||"(no company)")}</b>${r.version>1?` <span class="pill not" style="font-size:11px;padding:2px 8px">v${r.version}</span>`:""}</td>
+        <td>${esc(r.contact_name||"")}<div class="sim2">${esc(r.email||"")}</div></td>
+        <td>${esc(fmtWhen(r.submitted_at))}</td><td class="sim2">${esc(r.submitted_by_name||r.submitted_by_email||"")}</td>
+        <td><span class="chip ${c}">${l}</span></td>
+        <td class="acts"><button class="navbtn" data-subopen="${esc(r.id)}">View</button><button class="navbtn dl" data-subpdf="${esc(r.id)}">⬇ PDF</button></td></tr>`;}).join("")}
+      </tbody></table></div>
+      <div class="pager"><span class="sim2">${(d.page-1)*d.per+1}–${Math.min(d.page*d.per,d.total)} of ${d.total}</span>
+        <button class="navbtn" data-act="subprev" ${d.page<=1?"disabled":""}>← Previous</button>
+        <button class="navbtn" data-act="subnext" ${d.page>=pages?"disabled":""}>Next →</button></div>`; }
+  else body="";
+  return `${topnavHTML()}<div class="wrap" style="max-width:1080px">
+    <div class="eyebrow">LFMP TEAM</div><h1>Submissions</h1>
+    <p class="sub">Every onboarding submitted from the hub, stored permanently with who submitted it and when. Open a record to review it or download a PDF.</p>
+    <div class="toolbar">
+      <input type="text" id="subQ" placeholder="Search client, contact, email or team member" value="${esc(SUB.q)}">
+      <select id="subStatus"><option value="all">All statuses</option><option value="saved" ${SUB.status==="saved"?"selected":""}>Saved to GHL</option><option value="ghl_failed" ${SUB.status==="ghl_failed"?"selected":""}>GHL save failed</option></select>
+      <select id="subSort"><option value="new">Newest first</option><option value="old" ${SUB.sort==="old"?"selected":""}>Oldest first</option><option value="az" ${SUB.sort==="az"?"selected":""}>Client A–Z</option></select>
+      <label class="sim2" style="display:flex;gap:6px;align-items:center;white-space:nowrap"><input type="checkbox" id="subAll" ${SUB.all?"checked":""} style="width:auto"> Show earlier versions</label>
+      <button class="navbtn" data-act="subcsv" ${d&&d.total?"":"disabled"}>Export CSV</button>
+    </div>
+    ${body}
+  </div>`;
+}
+function renderSub(){
+  const back=`<button class="back-hub" data-act="subback">← Back to submissions</button>`;
+  if(SUB.recErr) return `${topnavHTML()}<div class="wrap" style="max-width:900px">${back}<div class="status-note p" style="margin-top:16px">Couldn't open this submission: ${esc(SUB.recErr)}</div></div>`;
+  if(!SUB.rec) return `${topnavHTML()}<div class="wrap" style="max-width:900px">${back}<div class="box" style="text-align:center;padding:40px;margin-top:16px"><div class="spinner"></div><p class="sim">Loading…</p></div></div>`;
+  const r=SUB.rec.submission, v=r.answers||{}, vers=SUB.rec.versions||[]; const [c,l]=SUB_STATUS[r.status]||["u",r.status];
+  const keep=state.v; state.v=v;
+  const fmt=f=>{ const x=v[f.key]; const has=Array.isArray(x)?x.length:String(x??"").trim()!=="";
+    if(!has) return '<span class="empty">Not answered</span>'; if(f.t==="password") return '<span class="empty">•••••• (entered; hidden)</span>';
+    return esc(Array.isArray(x)?x.join(", "):x).replace(/\n/g,"<br>"); };
+  const secs=STEPS.map(st=>`<h3 class="steph">${esc(T("step."+st.id+".title",st.title))}</h3>`+st.pages.map(p=>{
+    const fs=p.items.filter(i=>i.kind==="field"&&condMet(i.cond)); if(!fs.length) return "";
+    return `<div class="box" style="margin-bottom:12px"><div class="eyebrow" style="text-align:left;letter-spacing:2px;font-size:11px">SECTION ${p.sec} OF 17${p.secTitle?" · "+esc(p.secTitle.toUpperCase()):""}</div>
+      <div style="font-weight:700;color:var(--navy);margin:2px 0 10px">${esc(T("p."+p.id+".title",p.title))}</div>
+      <table class="qa">${fs.map(f=>`<tr><td class="q">${esc(T("f."+f.n+".label",f.label))}${f.req?' <span class="req">*</span>':""}</td><td>${fmt(f)}</td></tr>`).join("")}</table></div>`;}).join("")).join("");
+  state.v=keep;
+  const others=vers.filter(x=>x.id!==r.id);
+  return `${topnavHTML()}<div class="wrap" style="max-width:900px">${back}
+    <div class="box" style="margin:16px 0">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start">
+        <div><div class="eyebrow" style="text-align:left">ONBOARDING SUBMISSION${r.version>1||others.length?" · VERSION "+r.version:""}</div>
+          <h2 style="margin:4px 0;color:var(--navy);font-size:26px">${esc(r.company||"(no company)")}</h2>
+          <div>${esc(r.contact_name||"")}${r.email?" · "+esc(r.email):""}</div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn-primary" data-subpdf="${esc(r.id)}">⬇ Download PDF</button><button class="navbtn" data-subjson="${esc(r.id)}">JSON</button>
+          <button class="navbtn" data-ghl="${esc(r.contact_id)}" title="Open this client in the hub (loads the current answers from GHL)">Open client</button></div>
+      </div>
+      <div class="meta"><div><span>Submitted</span>${esc(fmtWhen(r.submitted_at))}</div><div><span>Submitted by</span>${esc(r.submitted_by_name||"")}<div class="sim2">${esc(r.submitted_by_email||"")}</div></div>
+        <div><span>Status</span><span class="chip ${c}">${l}</span></div><div><span>Submission ID</span><code>${esc(r.id)}</code></div></div>
+      ${r.status!=="saved"?`<div class="status-note p" style="margin-top:12px">This submission is stored safely, but saving it to GHL didn't finish${r.ghl_error?": "+esc(r.ghl_error):""}. <button class="navbtn" data-subretry="${esc(r.id)}" ${SUB.retrying?"disabled":""}>${SUB.retrying?"Retrying…":"Retry GHL save"}</button></div>`:""}
+      ${others.length?`<div class="sim" style="margin-top:12px">Other versions: ${others.map(o=>`<a href="#" data-subopen="${esc(o.id)}">v${o.version}</a> ${esc(fmtWhen(o.submitted_at))} by ${esc(o.submitted_by_name||"")}`).join(" · ")}</div>`:""}
+    </div>
+    <p class="sim" style="margin:0 0 10px">These are the answers exactly as submitted. Questions hidden by the form's rules are left out.</p>
+    ${secs}
+  </div>`;
+}
+let subT=null;
+document.addEventListener("input",e=>{ if(e.target.id==="subQ"){ SUB.q=e.target.value; SUB.page=1; clearTimeout(subT); subT=setTimeout(()=>{ const pos=e.target.selectionStart; loadSubs().then(()=>{ const i=$("#subQ"); if(i){ i.focus(); i.setSelectionRange(pos,pos);} }); const i=$("#subQ"); if(i){ i.focus(); i.setSelectionRange(pos,pos);} },300); } });
+document.addEventListener("change",e=>{ if(e.target.id==="subStatus"){ SUB.status=e.target.value; SUB.page=1; loadSubs(); } if(e.target.id==="subSort"){ SUB.sort=e.target.value; SUB.page=1; loadSubs(); } if(e.target.id==="subAll"){ SUB.all=e.target.checked; SUB.page=1; loadSubs(); } });
+document.addEventListener("click",e=>{
+  if(e.target.closest("[data-subpdf],[data-ghl]")) return;   // handled by the main click handler
+  const t=e.target.closest("[data-subopen],[data-subjson],[data-subretry],[data-act^='sub']"); if(!t) return;
+  if(t.dataset.subopen){ e.preventDefault(); e.stopPropagation(); openSub(t.dataset.subopen); return; }
+  if(t.dataset.subjson){ e.stopPropagation(); subJSON(t.dataset.subjson); return; }
+  if(t.dataset.subretry){ e.stopPropagation(); retrySub(t.dataset.subretry); return; }
+  switch(t.dataset.act){
+    case "subback": state.view="subs"; render(); if(!SUB.data) loadSubs(); else loadSubs(); break;
+    case "subreload": loadSubs(); break;
+    case "subclear": SUB.q=""; SUB.status="all"; SUB.page=1; loadSubs(); break;
+    case "subprev": SUB.page=Math.max(1,SUB.page-1); loadSubs(); break;
+    case "subnext": SUB.page++; loadSubs(); break;
+    case "subcsv": subCSV(); break;
+  }
+});
+
 // ===================== EVENTS =====================
-function go(i){ state.page=i; render(); }
+function go(i){ state.page=i; navOpen=false; render(); }
 document.addEventListener("click",e=>{
   if(admin){ const el=e.target.closest("[data-edit]"); if(el && !e.target.closest("#editor")){ e.preventDefault(); e.stopPropagation(); openEditor(el.dataset.edit, el.dataset.hint); return; } }
 },true);
 document.addEventListener("click",e=>{
-  const t=e.target.closest("[data-open],[data-page],[data-act],[data-opt],[data-client],[data-del],[data-exp],[data-expfmt],[data-ghl],[data-dl],[data-link]");
+  const t=e.target.closest("[data-open],[data-page],[data-act],[data-opt],[data-client],[data-del],[data-exp],[data-expfmt],[data-ghl],[data-dl],[data-link],[data-subpdf]");
   if(expOpen && !(t && (t.dataset.exp||t.dataset.expfmt))){ expOpen=null; if(state.view==="clients") render(true); if(!t) return; }
   if(!t) return;
   if(t.dataset.exp){ e.stopPropagation(); expOpen = expOpen===t.dataset.exp ? null : t.dataset.exp; render(true); return; }
@@ -918,6 +1223,7 @@ document.addEventListener("click",e=>{
   if(t.dataset.del){ e.stopPropagation(); if(pendingDelete===t.dataset.del){ delete DB.clients[t.dataset.del]; pendingDelete=null; saveDB(); toast("Client deleted from this browser"); } else { pendingDelete=t.dataset.del; setTimeout(()=>{ if(pendingDelete===t.dataset.del){ pendingDelete=null; if(state.view==="clients") render(true);} },4000); } render(true); return; }
   if(t.dataset.link){ e.stopPropagation(); linkFrom=t.dataset.link; searchResults=null; state.view="clients"; render(); setTimeout(()=>{ const i=document.getElementById("searchIn"); if(i){ i.value=cName(DB.clients[linkFrom]); i.focus(); } },0); return; }
   if(t.dataset.dl){ e.stopPropagation(); exportPDF(DB.clients[t.dataset.dl]); toast("Opening the print window. Choose \"Save as PDF\"."); return; }
+  if(t.dataset.subpdf){ e.stopPropagation(); subPDF(t.dataset.subpdf); return; }
   if(t.dataset.ghl){ if(linkFrom) linkClient(linkFrom, t.dataset.ghl); else openGHLContact(t.dataset.ghl); return; }
   if(t.dataset.client){ const c=DB.clients[t.dataset.client]; if(CONNECTED && c.contactId){ openGHLContact(c.contactId); } else openClient(t.dataset.client); return; }
   if(t.dataset.open!==undefined){
@@ -937,24 +1243,31 @@ document.addEventListener("click",e=>{
   const reqLeft=()=>pageFields(p).filter(f=>f.req && !filled(f.key)).length;
   const st = p && !p.infoOnly ? pageFields(p).find(f=>f.status) : null;
   switch(t.dataset.act){
-    case "hub": state.view="hub"; render(); break;
+    case "hub": navOpen=false; state.view="hub"; render(); break;
+    case "secmenu": navOpen=!navOpen; render(true); if(navOpen){ const f=document.querySelector(".secitem.cur")||document.querySelector(".secitem"); f&&f.focus(); } break;
     case "clients": state.view="clients"; render(); break;
     case "linkstart": { linkFrom=DB.current; searchResults=null; state.view="clients"; render(); setTimeout(()=>{ const i=document.getElementById("searchIn"); if(i){ i.value=cName(DB.clients[linkFrom]); i.focus(); } },0); break; }
     case "linkcancel": linkFrom=null; render(true); break;
+    case "hideguide": setGuide(true); render(true); break;
+    case "showguide": setGuide(false); render(true); break;
+    case "gosubs": e.preventDefault(); $("#subsBtn").click(); break;
     case "newclient": { const nm=($("#newName").value||"").trim(); if(!nm){ toast("Enter the firm name first"); break; } const id=newId(); DB.clients[id]={id,v:{company:nm},updated:Date.now()}; openClient(id); toast("New client started"); break; }
     case "back": go(Math.max(0,state.page-1)); break;
     case "next": next(); break;
-    case "save": { const r=reqLeft(); toast(r?`Saved in this browser. ${r} required field${r>1?"s":""} still empty. This page stays open.`:"Saved in this browser (not sent to GHL yet)."); next(); break; }
-    case "granted": { state.v[st.key]="Granted"; touch(st.key); const r=reqLeft(); toast(r?`Status set to Granted, but ${r} required field${r>1?"s":""} still empty. This page stays open.`:"Status set to Granted. Saved in this browser."); next(); break; }
-    case "later": state.v[st.key]="Pending"; touch(st.key); toast("Status set to Pending. Saved in this browser; no reminder is scheduled."); next(); break;
+    case "save": { const r=reqLeft(); toast(r?`Saved. ${r} required field${r>1?"s":""} still empty, so this page stays open. It goes to GHL when you click Finish step.`:"Saved. It goes to GHL when you click Finish step."); next(); break; }
+    case "granted": { state.v[st.key]="Granted"; touch(st.key); const r=reqLeft(); toast(r?`Status set to Granted, but ${r} required field${r>1?"s":""} still empty. This page stays open.`:"Status set to Granted. It goes to GHL when you click Finish step."); next(); break; }
+    case "later": state.v[st.key]="Pending"; touch(st.key); toast("Status set to Pending. It goes to GHL when you click Finish step."); next(); break;
     case "submit": {
       const c=DB.clients[DB.current];
       if(!(CONNECTED&&c&&c.contactId)){ toast("Not connected to GHL. An admin can export this client from the client list (Admin mode → Export)."); next(); break; }
       const open=STEPS.reduce((n,s)=>n+missing(s),0);
       if(open && !submitArm){ submitArm=true; render(true); toast(`${open} item${open>1?"s are":" is"} still open. Click again to submit anyway.`); setTimeout(()=>{ submitArm=false; if(state.view==="step") render(true); },6000); break; }
       submitArm=false;
-      saveToGHL(c,true).then(r=>{ toast(`Submitted to GHL. Tag "${r.tag}" added${r.skipped&&r.skipped.length?` · ${r.skipped.length} field(s) skipped, see the browser console`:""}.`); next(); })
-        .catch(err=>toast("Submit failed: "+err.message));
+      saveToGHL(c,true).then(r=>{ const sb=r.submission;
+          if(sb.status==="saved") toast(`Submitted${sb.version>1?" (version "+sb.version+")":""}. Stored under Submissions and saved to GHL; tag "${r.tag||SUBMIT_TAG}" added${r.skipped&&r.skipped.length?` · ${r.skipped.length} field(s) skipped, see the browser console`:""}.`);
+          else toast(`Stored under Submissions, but the GHL save failed: ${r.ghlError||sb.ghl_error||"unknown error"}. Open Submissions to retry.`);
+          next(); })
+        .catch(err=>toast("Submit didn't finish: "+err.message+" Click Submit again; it won't create a duplicate."));
       break; }
     case "finish": {
       const c=DB.clients[DB.current];
@@ -966,12 +1279,18 @@ document.addEventListener("click",e=>{
       break; }
     case "savenow": { const c=DB.clients[DB.current]; saveToGHL(c,false).then(r=>toast(`Saved to GHL (${r.saved} field${r.saved===1?"":"s"}).`)).catch(err=>toast("Save failed: "+err.message)); break; }
     case "search": { const q=($("#searchIn").value||"").trim(); searchQ=q; if(q.length<2){ toast("Type at least 2 characters"); break; }
-      busy=true; render(true); api("/search?q="+encodeURIComponent(q)).then(r=>{ searchResults=r.contacts||[]; }).catch(err=>{ if(err.message!=="Passcode required") toast("Search failed: "+err.message); }).finally(()=>{ busy=false; render(true); }); break; }
-    case "setpass": { setPass(($("#passIn").value||"").trim()); needPass=false; render(true); toast("Passcode saved. Try your search again."); break; }
+      busy=true; render(true); api("/search?q="+encodeURIComponent(q)).then(r=>{ searchResults=r.contacts||[]; }).catch(err=>{ toast("Search failed: "+err.message); }).finally(()=>{ busy=false; render(true); }); break; }
   }
 });
+function closeSecMenu(){ navOpen=false; const pn=document.getElementById("secpanel"); pn&&pn.remove(); const b=document.querySelector(".secbtn"); b&&b.setAttribute("aria-expanded","false"); }
+document.addEventListener("click",e=>{ if(navOpen && !e.target.closest(".secmenu")) closeSecMenu(); },true);   // close in place, so the click still lands
+document.addEventListener("keydown",e=>{
+  if(!navOpen) return;
+  if(e.key==="Escape"){ closeSecMenu(); const b=document.querySelector(".secbtn"); b&&b.focus(); }
+  else if(e.key==="ArrowDown"||e.key==="ArrowUp"){ const it=[...document.querySelectorAll(".secitem")]; const i=it.indexOf(document.activeElement); const nx=it[(i+(e.key==="ArrowDown"?1:-1)+it.length)%it.length]; nx&&nx.focus(); e.preventDefault(); }
+});
 document.addEventListener("input",e=>{ const el=e.target; if(el.dataset.k){ state.v[el.dataset.k]=el.value; touch(el.dataset.k); } });
-document.addEventListener("keydown",e=>{ if(e.key==="Enter" && e.target.id==="searchIn"){ e.preventDefault(); document.querySelector('[data-act="search"]').click(); } if(e.key==="Enter" && e.target.id==="passIn"){ e.preventDefault(); document.querySelector('[data-act="setpass"]').click(); } if(e.key==="Enter" && e.target.id==="newName"){ e.preventDefault(); document.querySelector('[data-act="newclient"]').click(); } });
+document.addEventListener("keydown",e=>{ if(e.key==="Enter" && e.target.id==="searchIn"){ e.preventDefault(); document.querySelector('[data-act="search"]').click(); } if(e.key==="Enter" && e.target.id==="newName"){ e.preventDefault(); document.querySelector('[data-act="newclient"]').click(); } });
 // (tracker and status refresh on the next navigation; refreshing on blur would swallow clicks)
 
 // ===================== ADMIN MODE =====================
@@ -984,25 +1303,10 @@ function openEditor(key,hint){
 }
 function setAdmin(on){ admin=on; document.body.classList.toggle("admin",on); try{ on?sessionStorage.setItem("lfmp_admin","1"):sessionStorage.removeItem("lfmp_admin"); }catch(e){}
   if(!on){ $("#editor").classList.remove("open"); $("#mapToggle").checked=false; document.body.classList.remove("showmap"); }
-  $("#adminBtn").textContent = on ? "🔓 Admin" : "🔒 Admin"; render(true); }
-$("#adminBtn").onclick=()=>{ if(admin){ setAdmin(false); toast("Admin mode off"); return; } $("#adminErr").textContent=""; $("#adminPw").value=""; $("#adminModal").classList.add("open"); setTimeout(()=>$("#adminPw").focus(),50); };
-$("#adminCancel").onclick=()=>$("#adminModal").classList.remove("open");
-$("#adminExit").onclick=()=>{ setAdmin(false); toast("Admin mode off"); };
-async function tryAdmin(){
-  const pw=$("#adminPw").value; if(!pw){ $("#adminErr").textContent="Enter the password."; return; }
-  if(!CONNECTED){ $("#adminErr").textContent="Admin login needs the GHL relay to be connected."; return; }
-  $("#adminGo").disabled=true; $("#adminErr").textContent="Checking…";
-  try{
-    const res=await fetch(RELAY_URL.replace(/\/+$/,"")+"/admin/verify",{method:"POST",headers:{"Content-Type":"application/json",...(getPass()?{"X-Hub-Passcode":getPass()}:{})},body:JSON.stringify({password:pw})});
-    const d=await res.json().catch(()=>({}));
-    if(res.ok && d.ok){ $("#adminModal").classList.remove("open"); setAdmin(true); toast("Admin mode on"); }
-    else $("#adminErr").textContent = d.message || "Incorrect password.";
-  }catch(e){ $("#adminErr").textContent="Couldn't reach the relay."; }
-  finally{ $("#adminGo").disabled=false; }
-}
-$("#adminGo").onclick=tryAdmin;
-$("#adminPw").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); tryAdmin(); } });
-try{ if(sessionStorage.getItem("lfmp_admin")==="1"){ admin=true; document.body.classList.add("admin"); setTimeout(()=>{$("#adminBtn").textContent="🔓 Admin";},0); } }catch(e){}
+  $("#adminBtn").classList.toggle("on",on); render(true); }
+$("#adminBtn").onclick=()=>{ setAdmin(!admin); toast(admin?"Tools on":"Tools off"); };
+$("#adminExit").onclick=()=>{ setAdmin(false); toast("Tools off"); };
+try{ if(sessionStorage.getItem("lfmp_admin")==="1"){ admin=true; document.body.classList.add("admin"); setTimeout(()=>$("#adminBtn").classList.add("on"),0); } }catch(e){}
 $("#edSave").onclick=()=>{ const v=$("#edVal").value; if(edKey==="client.name"){ TXT[edKey]=v; } else if(v===DEF[edKey]) delete TXT[edKey]; else TXT[edKey]=v; $("#editor").classList.remove("open"); updateCount(); render(true); toast("Text updated (this tab only)"); };
 $("#edCancel").onclick=()=>$("#editor").classList.remove("open");
 $("#edDefault").onclick=()=>{ delete TXT[edKey]; $("#editor").classList.remove("open"); updateCount(); render(true); toast("Restored original text"); };
@@ -1017,7 +1321,8 @@ $("#howBtn").onclick=()=>$("#howModal").classList.add("open");
 $("#closeHow").onclick=()=>$("#howModal").classList.remove("open");
 $("#howModal").addEventListener("click",e=>{ if(e.target.id==="howModal") e.target.classList.remove("open"); });
 $("#clientsBtn").onclick=()=>{ state.view="clients"; render(); };
-if(CONNECTED){ $("#bannerText").innerHTML="<b>LFMP INTERNAL</b> · Connected to GHL. Finishing a step saves to the contact; Submit adds the tag <code style=\"color:#fff\">"+SUBMIT_TAG+"</code>."; }
+$("#subsBtn").onclick=()=>{ state.view="subs"; SUB.current=null; loadSubs(); };
+api("/me").then(m=>{ ME=m; $("#whoami").innerHTML=`<span class="pre">Signed in as </span><b>${esc(m.name)}</b> <span class="em">${esc(m.email)}</span>`; $("#whoami").title=m.email; }).catch(()=>{});
 render();
 </script>
 </body>
